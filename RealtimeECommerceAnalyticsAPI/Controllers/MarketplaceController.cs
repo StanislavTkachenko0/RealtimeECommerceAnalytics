@@ -22,13 +22,6 @@ namespace RealtimeECommerceAnalytics.Controllers
             _marketplaceService = marketplaceService;
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var products = await _aggregatorService.GetAllProductsAsync();
-            return Ok(products);
-        }
-
         [HttpGet("update-and-broadcast")]
         public async Task<IActionResult> UpdateAndBroadcast()
         {

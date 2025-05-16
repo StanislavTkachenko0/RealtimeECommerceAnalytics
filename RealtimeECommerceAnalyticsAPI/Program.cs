@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddServices();
 builder.Services.AddHttpClients();
+builder.Services.AddHostedServices();
 
 builder.Services.AddSignalR();
 

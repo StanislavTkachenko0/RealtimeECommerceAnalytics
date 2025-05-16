@@ -1,4 +1,5 @@
 ﻿using RealtimeECommerceAnalytics.Services;
+using RealtimeECommerceAnalytics.Services.Backgrounds;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 
 namespace RealtimeECommerceAnalytics.Shared.Extensions
@@ -9,6 +10,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
         {
             services.AddScoped<IMarketplaceService, FakeStoreService>();
             services.AddScoped<IMarketplaceService, DummyJsonService>();
+            services.AddScoped<IMarketplaceAggregatorService, MarketplaceAggregatorService>();
             services.AddScoped<MarketplaceService>();
         }
 
@@ -16,6 +18,11 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
         {
             services.AddHttpClient<FakeStoreService>();
             services.AddHttpClient<DummyJsonService>();
+        }
+
+        public static void AddHostedServices(this IServiceCollection services)
+        {
+            services.AddHostedService<MarketplaceStatsBackgroundService>();
         }
     }
 }
