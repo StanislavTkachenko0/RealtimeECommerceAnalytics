@@ -1,0 +1,6 @@
+@RealtimeECommerceAnalytics_HostAddress = http://localhost:5293
+
+GET {{RealtimeECommerceAnalytics_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
