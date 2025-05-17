@@ -21,7 +21,7 @@ namespace RealtimeECommerceAnalytics.Services.Backgrounds
                 // Відправка по SignalR
                 await cryptoService.UpdateAndBroadcast();
 
-                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // каждые 30 секунд
+                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // кожні 30 секунд
             }
         }
     }

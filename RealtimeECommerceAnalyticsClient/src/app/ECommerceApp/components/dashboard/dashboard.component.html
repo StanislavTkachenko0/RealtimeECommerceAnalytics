@@ -1,10 +1,27 @@
-<h2>Статистика по категоріям:</h2>
-<div style="display: block;">
-  <canvas baseChart
-          [data]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="true"
-          [type]="'bar'">
-  </canvas>
+<div class="analytics-container">
+  <div>
+    <h2>Статистика по категоріям:</h2>
+    <div style="display: block;">
+      <canvas baseChart
+              [data]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="true"
+              [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
+
+  <div>
+    <h2>Статистика по криптовалютам:</h2>
+    <div style="display: block;">
+      <canvas baseChart
+              [data]="barCryptoChartData"
+              [labels]="barCryptoChartLabels"
+              [options]="barCryptoChartOptions"
+              [legend]="true"
+              [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
 </div>

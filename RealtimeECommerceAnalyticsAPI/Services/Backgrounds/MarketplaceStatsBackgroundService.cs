@@ -18,7 +18,7 @@
 
                 await marketplaceService.AggregateAndBroadcastProductStatsAsync();
 
-                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // каждые 30 секунд
+                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken); // кожні 30 секунд
             }
         }
     }

@@ -38,6 +38,35 @@ export class DashboardComponent implements OnInit {
 
   public barChartLabels: string[] = [];
 
+  public barCryptoChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Crypto Prices',
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+        ],
+        borderWidth: 1
+      }
+    ],
+  };
+
+  public barCryptoChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+  };
+
+  public barCryptoChartLabels: string[] = [];
+
   constructor(
     private signalRService: MarketplaceSignalRService,
     private cryptoSignalRService: CryptoSignalrService
@@ -55,13 +84,19 @@ export class DashboardComponent implements OnInit {
 
       this.barChartData.labels = labels;
       this.barChartData.datasets[0].data = values;
-      console.log('Отримані оновлені данні:', data);
+      console.log('Отримані оновлені данні Marketplace:', data);
     });
   }
 
   private setCryptoStats() {
     this.cryptoSignalRService.cryptoPrices$.subscribe(data => {
-      console.log('Отримані оновлені данні:', data);
+      const labels = data.map((item: any) => item.name);
+      const values = data.map((item: any) => item.currentPrice);
+
+      this.barCryptoChartData.labels = labels;
+      this.barCryptoChartData.datasets[0].data = values;
+
+      console.log('Отримані оновлені данні Crypto:', data);
     });
   }
 }
