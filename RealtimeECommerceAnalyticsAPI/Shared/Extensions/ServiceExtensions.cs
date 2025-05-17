@@ -11,6 +11,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
             services.AddScoped<IMarketplaceService, FakeStoreService>();
             services.AddScoped<IMarketplaceService, DummyJsonService>();
             services.AddScoped<IMarketplaceAggregatorService, MarketplaceAggregatorService>();
+            services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<MarketplaceService>();
         }
 
@@ -23,6 +24,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
         public static void AddHostedServices(this IServiceCollection services)
         {
             services.AddHostedService<MarketplaceStatsBackgroundService>();
+            services.AddHostedService<CryptoDataBackgroundService>();
         }
     }
 }

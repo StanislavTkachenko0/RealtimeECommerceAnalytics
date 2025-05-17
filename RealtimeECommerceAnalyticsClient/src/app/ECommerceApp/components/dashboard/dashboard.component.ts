@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MarketplaceSignalRService} from '../../services/marketplace-signalr.service';
 import {ChartConfiguration} from 'chart.js';
+import {CryptoSignalrService} from '../../services/crypto-signalr.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,15 +38,29 @@ export class DashboardComponent implements OnInit {
 
   public barChartLabels: string[] = [];
 
-  constructor(private signalRService: MarketplaceSignalRService) {}
+  constructor(
+    private signalRService: MarketplaceSignalRService,
+    private cryptoSignalRService: CryptoSignalrService
+  ) {}
 
   ngOnInit(): void {
+    this.setProductsStat();
+    this.setCryptoStats();
+  }
+
+  private setProductsStat() {
     this.signalRService.productStats$.subscribe(data => {
       const labels = data.map((item: any) => item.category);
       const values = data.map((item: any) => item.averagePrice);
 
       this.barChartData.labels = labels;
       this.barChartData.datasets[0].data = values;
+      console.log('Отримані оновлені данні:', data);
+    });
+  }
+
+  private setCryptoStats() {
+    this.cryptoSignalRService.cryptoPrices$.subscribe(data => {
       console.log('Отримані оновлені данні:', data);
     });
   }
