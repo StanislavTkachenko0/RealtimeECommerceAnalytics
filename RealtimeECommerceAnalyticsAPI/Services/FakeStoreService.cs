@@ -4,17 +4,17 @@ using System.Text.Json;
 
 namespace RealtimeECommerceAnalytics.Services
 {
-    public class FakeStoreService : IMarketplaceService
+    public class FakeStoreService : IApiSourceService
     {
         private readonly HttpClient _httpClient;
-        private const string ApiUrl = "https://fakestoreapi.com/products";
+        public string SourceName => "FakeStore";
 
         public FakeStoreService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetLatestDataAsync()
         {
             var response = await _httpClient.GetAsync("https://fakestoreapi.com/products");
             response.EnsureSuccessStatusCode();
@@ -32,7 +32,7 @@ namespace RealtimeECommerceAnalytics.Services
                 Price = x.Price,
                 Category = x.Category,
                 ImageUrl = x.Image,
-                Source = "FakeStore"
+                Source = "FakeStore",
             });
         }
     }

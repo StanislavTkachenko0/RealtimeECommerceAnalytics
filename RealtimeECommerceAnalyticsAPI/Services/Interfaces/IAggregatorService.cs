@@ -2,8 +2,8 @@
 
 namespace RealtimeECommerceAnalytics.Services.Interfaces
 {
-    public interface IMarketplaceAggregatorService
+    public interface IAggregatorService
     {
-        public Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        public Task<IEnumerable<ProductDto>> GetAggregatedDataAsync();
     }
 }

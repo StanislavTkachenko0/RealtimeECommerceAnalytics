@@ -7,20 +7,20 @@ namespace RealtimeECommerceAnalytics.Services
     public class MarketplaceService
     {
         private readonly IHubContext<MarketplaceHub> _hubContext;
-        private readonly IMarketplaceAggregatorService _marketplaceAggregatorService;
+        private readonly IAggregatorService _aggregatorService;
 
         public MarketplaceService(
             IHubContext<MarketplaceHub> hubContext,
-            IMarketplaceAggregatorService marketplaceAggregatorService
+            IAggregatorService aggregatorService
             )
         {
             _hubContext = hubContext;
-            _marketplaceAggregatorService = marketplaceAggregatorService;
+            _aggregatorService = aggregatorService;
         }
 
         public async Task AggregateAndBroadcastProductStatsAsync()
         {
-            var allProducts = await _marketplaceAggregatorService.GetAllProductsAsync();
+            var allProducts = await _aggregatorService.GetAggregatedDataAsync();
 
             // Агрегація: середня ціна по категоріях
             var aggregatedStats = allProducts
@@ -28,7 +28,7 @@ namespace RealtimeECommerceAnalytics.Services
                 .Select(g => new
                 {
                     Category = g.Key,
-                    AveragePrice = Math.Round(g.Average(p => p.Price), 2),
+                    AveragePrice = Math.Round(g.Average(p => p.Price ?? 0), 2),
                     Count = g.Count()
                 })
                 .ToList();

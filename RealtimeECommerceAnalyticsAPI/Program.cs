@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Configuration;
 using RealtimeECommerceAnalytics.HUBs;
+using RealtimeECommerceAnalytics.Models.Configs;
 using RealtimeECommerceAnalytics.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddServices();
 builder.Services.AddHttpClients();
 builder.Services.AddHostedServices();
+
+builder.Services.Configure<MongoSettings>(configuration.GetSection("MongoSettings"));
 
 builder.Services.AddSignalR();
 
