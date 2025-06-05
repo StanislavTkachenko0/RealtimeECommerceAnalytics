@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 
 namespace RealtimeECommerceAnalytics.Controllers
 {
+    [ApiController]
+    [Authorize]
+    [Route("api/[controller]")]
     public class AggregationController : Controller
     {
         private readonly IAggregatorService _aggregator;

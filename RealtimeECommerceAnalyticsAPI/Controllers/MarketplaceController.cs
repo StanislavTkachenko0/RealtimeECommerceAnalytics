@@ -10,23 +10,5 @@ namespace RealtimeECommerceAnalytics.Controllers
     [ApiController]
     public class MarketplaceController : ControllerBase
     {
-        private readonly IEnumerable<IMarketplaceService> _marketplaceServices;
-        private readonly MarketplaceService _marketplaceService;
-
-        public MarketplaceController(
-            IEnumerable<IMarketplaceService> marketplaceServices,
-            MarketplaceService marketplaceService
-            )
-        {
-            _marketplaceServices = marketplaceServices;
-            _marketplaceService = marketplaceService;
-        }
-
-        [HttpGet("update-and-broadcast")]
-        public async Task<IActionResult> UpdateAndBroadcast()
-        {
-            await _marketplaceService.AggregateAndBroadcastProductStatsAsync();
-            return Ok("Stats updated and broadcasted");
-        }
     }
 }
