@@ -1,0 +1,60 @@
+<div class="flex justify-content-center align-items-center">
+  <p-card class="w-50">
+    <div class="flex justify-center w-100">
+      <div class="w-100">
+        <h2 class="text-2xl font-semibold text-center mb-4">
+          {{ isLoginMode ? 'Sign In' : 'Sign Up' }}
+        </h2>
+
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <div class="login-fields flex flex-direction-column">
+            <p-floatLabel>
+              <input pInputText id="email"
+                     formControlName="email"
+                     type="email"
+                     class="w-full"
+                     autocomplete="email" />
+              <label for="email">Email</label>
+            </p-floatLabel>
+
+            <p-floatLabel>
+              <input pInputText id="password"
+                     formControlName="password"
+                     type="password"
+                     pPassword
+                     toggleMask
+                     autocomplete="current-password"/>
+              <label for="password">Password</label>
+            </p-floatLabel>
+
+            <p-floatLabel *ngIf="!isLoginMode">
+              <input pInputText id="confirmPassword"
+                     formControlName="confirmPassword"
+                     type="password"
+                     pPassword
+                     toggleMask
+                     autocomplete="new-password"/>
+              <label for="confirmPassword">Confirm Password</label>
+            </p-floatLabel>
+
+            <button
+              type="submit"
+              pButton
+              class="w-full mt-2"
+              [label]="isLoginMode ? 'Sign In' : 'Sign Up'"
+            ></button>
+          </div>
+        </form>
+
+        <p class="text-center mt-4 text-sm">
+          {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+          <a
+            [routerLink]="[isLoginMode ? '/sign-up' : '/sign-in']"
+            class="text-blue-600 hover:underline"
+          >{{ isLoginMode ? 'Sign Up' : 'Sign In' }}</a
+          >
+        </p>
+      </div>
+    </div>
+  </p-card>
+</div>

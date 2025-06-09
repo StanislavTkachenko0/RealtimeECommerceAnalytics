@@ -18,6 +18,7 @@ namespace RealtimeECommerceAnalytics.Services
         {
             var url = "https://world.openfoodfacts.org/api/v2/search?fields=product_name,categories_tags,nutriments&sort_by=unique_scans_n&page_size=20";
             var response = await _httpClient.GetAsync(url);
+
             if (!response.IsSuccessStatusCode)
             {
                 var msg = await response.Content.ReadAsStringAsync();
@@ -36,7 +37,8 @@ namespace RealtimeECommerceAnalytics.Services
                                 ? tags[0].GetString()?.Replace("en:", "") : "food",
                     Price = null,
                     Source = "OpenFoodFacts",
-                });
+                })
+                .ToList();
 
             return result;
         }

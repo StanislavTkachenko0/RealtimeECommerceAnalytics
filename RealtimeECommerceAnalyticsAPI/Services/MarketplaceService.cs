@@ -6,15 +6,12 @@ namespace RealtimeECommerceAnalytics.Services
 {
     public class MarketplaceService
     {
-        private readonly IHubContext<MarketplaceHub> _hubContext;
         private readonly IAggregatorService _aggregatorService;
 
         public MarketplaceService(
-            IHubContext<MarketplaceHub> hubContext,
             IAggregatorService aggregatorService
             )
         {
-            _hubContext = hubContext;
             _aggregatorService = aggregatorService;
         }
 
@@ -32,9 +29,6 @@ namespace RealtimeECommerceAnalytics.Services
                     Count = g.Count()
                 })
                 .ToList();
-
-            // Відправка через SignalR
-            await _hubContext.Clients.All.SendAsync("ReceiveProductStats", aggregatedStats);
         }
     }
 }

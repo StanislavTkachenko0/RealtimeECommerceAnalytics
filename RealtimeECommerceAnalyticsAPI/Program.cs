@@ -79,7 +79,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<MarketplaceHub>("/HUBs/marketplaceHub");
-app.MapHub<CryptoHub>("/HUBs/cryptoHub");
+app.MapHub<AnalyticsHub>("/HUBs/analyticsHub");
 
 app.Run();

@@ -5,18 +5,18 @@ using RealtimeECommerceAnalytics.Services.Interfaces;
 namespace RealtimeECommerceAnalytics.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
-    public class AggregationController : Controller
+    public class DataController : Controller
     {
         private readonly IAggregatorService _aggregator;
 
-        public AggregationController(IAggregatorService aggregator)
+        public DataController(IAggregatorService aggregator)
         {
             _aggregator = aggregator;
         }
 
         [HttpGet]
+        [Route(nameof(GetAllData))]
         public async Task<IActionResult> GetAllData()
         {
             var data = await _aggregator.GetAggregatedDataAsync();

@@ -5,5 +5,6 @@ namespace RealtimeECommerceAnalytics.Services.Interfaces
     public interface IAggregatorService
     {
         public Task<IEnumerable<ProductDto>> GetAggregatedDataAsync();
+        public Task SendAggregatedDataAsync();
     }
 }

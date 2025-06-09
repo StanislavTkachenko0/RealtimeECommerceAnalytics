@@ -12,8 +12,7 @@ namespace RealtimeECommerceAnalytics.Services
         public string SourceName => "CoinGecko";
 
         public CryptoService(
-            HttpClient httpClient,
-            IHubContext<CryptoHub> hubContext
+            HttpClient httpClient
         )
         {
             _httpClient = httpClient;

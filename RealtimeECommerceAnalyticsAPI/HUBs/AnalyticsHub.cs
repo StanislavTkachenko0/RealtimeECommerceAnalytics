@@ -2,7 +2,7 @@
 
 namespace RealtimeECommerceAnalytics.HUBs
 {
-    public class MarketplaceHub : Hub
+    public class AnalyticsHub : Hub
     {
     }
 }

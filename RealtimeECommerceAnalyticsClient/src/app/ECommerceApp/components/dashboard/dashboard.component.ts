@@ -1,14 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {MarketplaceSignalRService} from '../../services/marketplace-signalr.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChartConfiguration} from 'chart.js';
-import {CryptoSignalrService} from '../../services/crypto-signalr.service';
+import {RealtimeService} from '../../services/realtime.service';
+import {DashboardService} from '../../services/dashboard.service';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: false
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  destroy$: Subject<void> = new Subject<void>();
+
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
     datasets: [
@@ -68,35 +72,29 @@ export class DashboardComponent implements OnInit {
   public barCryptoChartLabels: string[] = [];
 
   constructor(
-    private signalRService: MarketplaceSignalRService,
-    private cryptoSignalRService: CryptoSignalrService
+    private realtimeService: RealtimeService,
+    private dashboardService: DashboardService
   ) {}
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngOnInit(): void {
-    this.setProductsStat();
-    this.setCryptoStats();
-  }
+    this.loadDashboardData();
 
-  private setProductsStat() {
-    this.signalRService.productStats$.subscribe(data => {
-      const labels = data.map((item: any) => item.category);
-      const values = data.map((item: any) => item.averagePrice);
-
-      this.barChartData.labels = labels;
-      this.barChartData.datasets[0].data = values;
-      console.log('Отримані оновлені данні Marketplace:', data);
+    this.realtimeService.dataUpdated$.subscribe(() => {
+      this.loadDashboardData(); // метод, який оновлює графіки
     });
   }
 
-  private setCryptoStats() {
-    this.cryptoSignalRService.cryptoPrices$.subscribe(data => {
-      const labels = data.map((item: any) => item.name);
-      const values = data.map((item: any) => item.currentPrice);
 
-      this.barCryptoChartData.labels = labels;
-      this.barCryptoChartData.datasets[0].data = values;
-
-      console.log('Отримані оновлені данні Crypto:', data);
-    });
+  private loadDashboardData() {
+    this.dashboardService.getDashboardData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        console.log(res)
+      })
   }
 }

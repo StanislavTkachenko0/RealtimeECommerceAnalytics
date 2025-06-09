@@ -1,0 +1,59 @@
+@use "sass:math";
+
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+@function calcFluidFontSize($f-min, $f-max, $v-min, $v-max, $units: px) {
+    $k: math.div(($f-max - $f-min),($v-max - $v-min));
+    $b: $f-min - $k * $v-min;
+
+    $b: $b + $units;
+
+    @return calc( #{$k} * 100vw + #{$b} );
+}
+
+@function convertAlignItemsTo($val,$type) {
+    @if($type=='ms') {
+        @if($val=='flex-end') {
+            @return 'end';
+        }
+
+        @if($val=='flex-start') {
+            @return 'start';
+        }
+
+        @if($val=='space-between') {
+            @return 'justify';
+        }
+
+        @if($val=='space-around'){
+            @return 'distribute';
+        }
+    }
+
+    @if($type=='webkit') {
+        @if($val=='flex-end') {
+            @return 'end';
+        }
+
+        @if($val=='flex-start') {
+            @return 'start';
+        }
+
+        @if($val=='space-between') {
+            @return 'justify';
+        }
+    }
+
+    @return $val
+}
+
+// Авто-вычесление rem из px
+@function rem($pxsize) {
+    @return math.div($pxsize,$fontSize)+rem;
+}

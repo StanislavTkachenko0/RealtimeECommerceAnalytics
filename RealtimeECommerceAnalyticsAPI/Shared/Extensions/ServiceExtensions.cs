@@ -14,6 +14,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
             services.AddScoped<IApiSourceService, DummyJsonService>();
             services.AddScoped<IApiSourceService, OpenLibraryService>();
             services.AddScoped<IApiSourceService, OpenFoodFactsApiService>();
+            services.AddScoped<IApiSourceService, CryptoService>();
             services.AddScoped<IAggregatorService, AggregatorService>();
             // services.AddScoped<ICryptoService, CryptoService>();
             services.AddScoped<MarketplaceService>();
@@ -32,8 +33,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
 
         public static void AddHostedServices(this IServiceCollection services)
         {
-            // services.AddHostedService<MarketplaceStatsBackgroundService>();
-            // services.AddHostedService<CryptoDataBackgroundService>();
+            services.AddHostedService<DataCollectorService>();
         }
     }
 }
