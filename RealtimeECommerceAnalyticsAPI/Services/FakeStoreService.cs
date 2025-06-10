@@ -1,4 +1,5 @@
-﻿using RealtimeECommerceAnalytics.Models.DTOs;
+﻿using RealtimeECommerceAnalytics.Enums;
+using RealtimeECommerceAnalytics.Models.DTOs;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 using System.Text.Json;
 
@@ -32,7 +33,7 @@ namespace RealtimeECommerceAnalytics.Services
                 Price = x.Price,
                 Category = x.Category,
                 ImageUrl = x.Image,
-                Source = "FakeStore",
+                Source = DataSource.FakeStore,
             });
         }
     }
@@ -41,7 +42,7 @@ namespace RealtimeECommerceAnalytics.Services
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public string Category { get; set; }
         public string Image { get; set; }
     }

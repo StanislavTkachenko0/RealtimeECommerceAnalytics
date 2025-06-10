@@ -26,6 +26,13 @@ import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthService} from './services/auth.service';
+import { CryptoAnalyticsComponent } from './components/dashboard/components/crypto-analytics/crypto-analytics.component';
+import { ClientBusyComponent } from './components/client-busy/client-busy.component';
+import { FakeStoreComponent } from './components/dashboard/components/fake-store/fake-store.component';
+import {TabMenuModule} from "primeng/tabmenu";
+import { DummyComponent } from './components/dashboard/components/dummy/dummy.component';
+import { OpenFoodComponent } from './components/dashboard/components/open-food/open-food.component';
+import { OpenLibraryComponent } from './components/dashboard/components/open-library/open-library.component';
 
 Chart.register(
   BarElement,
@@ -42,7 +49,13 @@ Chart.register(
   declarations: [
     DashboardComponent,
     MainPageComponent,
-    SignInUpComponent
+    SignInUpComponent,
+    CryptoAnalyticsComponent,
+    ClientBusyComponent,
+    FakeStoreComponent,
+    DummyComponent,
+    OpenFoodComponent,
+    OpenLibraryComponent
   ],
   imports: [
     RouterModule.forChild([
@@ -64,11 +77,38 @@ Chart.register(
             },
             {
               path: 'dashboard',
-              component: DashboardComponent
+              component: DashboardComponent,
+              children: [
+                {
+                  path: '',
+                  redirectTo: 'crypto',
+                  pathMatch: 'full'
+                },
+                {
+                  path: 'crypto',
+                  component: CryptoAnalyticsComponent
+                },
+                {
+                  path: 'fake-store',
+                  component: FakeStoreComponent
+                },
+                {
+                  path: 'dummy',
+                  component: DummyComponent
+                },
+                {
+                  path: 'open-food',
+                  component: OpenFoodComponent
+                },
+                {
+                  path: 'open-library',
+                  component: OpenLibraryComponent
+                }
+              ]
             },
           ]
         },
-        { path: '**', redirectTo: 'sign-in' }
+        {path: '**', redirectTo: 'sign-in'}
       ]
     ),
     NgForOf,
@@ -81,6 +121,7 @@ Chart.register(
     CardModule,
     FloatLabelModule,
     HttpClientModule,
+    TabMenuModule,
   ],
   providers: [
     {

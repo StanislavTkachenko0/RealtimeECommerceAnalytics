@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ChartConfiguration} from 'chart.js';
 import {RealtimeService} from '../../services/realtime.service';
 import {DashboardService} from '../../services/dashboard.service';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, takeUntil, tap} from 'rxjs';
+import {AggregatedResponse} from '../../models/aggregated-response';
+import {MenuItem} from 'primeng/api';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,68 +14,26 @@ import {Subject, takeUntil} from 'rxjs';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<void> = new Subject<void>();
+  onDataUpdated$: Subject<void> = new Subject<void>();
 
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        label: 'Average Price',
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-        ],
-        borderWidth: 1
-      }
-    ],
-  };
+  items: MenuItem[] = [
+    { label: 'Crypto', icon: 'pi pi-user-plus', routerLink: './crypto' },
+    { label: 'Fake-store', icon: 'pi pi-user-plus', routerLink: './fake-store' },
+    { label: 'Dummy', icon: 'pi pi-user-plus', routerLink: './dummy' },
+    { label: 'Food', icon: 'pi pi-user-plus', routerLink: './open-food' },
+    { label: 'Library', icon: 'pi pi-user-plus', routerLink: './open-library' },
+  ];
 
-  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-  };
+  activeItem: MenuItem = this.items[0];
 
-  public barChartLabels: string[] = [];
-
-  public barCryptoChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        label: 'Crypto Prices',
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-        ],
-        borderWidth: 1
-      }
-    ],
-  };
-
-  public barCryptoChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-  };
-
-  public barCryptoChartLabels: string[] = [];
+  public aggregatedData!: AggregatedResponse;
+  public dataLoading: boolean = true;
 
   constructor(
     private realtimeService: RealtimeService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnDestroy() {
@@ -84,17 +44,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadDashboardData();
 
-    this.realtimeService.dataUpdated$.subscribe(() => {
-      this.loadDashboardData(); // метод, який оновлює графіки
+    this.realtimeService.dataUpdated$
+      .subscribe(() => {
+        const current = this.items.find(i => this.router.url.includes(i.routerLink!));
+        if (current) {
+          this.activeItem = current;
+        }
+
+        this.loadDashboardData(); // метод, який оновлює графіки
     });
   }
 
 
   private loadDashboardData() {
+    this.dataLoading = true
+
     this.dashboardService.getDashboardData()
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        console.log(res)
+        this.aggregatedData = res;
+
+        this.onDataUpdated$.next();
+
+        this.dataLoading = false;
       })
   }
+
+  onTabChange(item: MenuItem) {
+    this.router.navigate([item.routerLink!], { relativeTo: this.route });  }
 }

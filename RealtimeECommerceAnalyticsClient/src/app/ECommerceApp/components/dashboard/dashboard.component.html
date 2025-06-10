@@ -1,27 +1,12 @@
-<div class="analytics-container">
+<div class="w-100">
   <div>
-    <h2>Статистика по категоріям:</h2>
-    <div style="display: block;">
-      <canvas baseChart
-              [data]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [legend]="true"
-              [type]="'bar'">
-      </canvas>
-    </div>
+    <p-tabMenu
+      [model]="items"
+      [activeItem]="activeItem"
+      (activeItemChange)="onTabChange($event)"></p-tabMenu>
   </div>
 
-  <div>
-    <h2>Статистика по криптовалютам:</h2>
-    <div style="display: block;">
-      <canvas baseChart
-              [data]="barCryptoChartData"
-              [labels]="barCryptoChartLabels"
-              [options]="barCryptoChartOptions"
-              [legend]="true"
-              [type]="'bar'">
-      </canvas>
-    </div>
-  </div>
+  <ng-container *ngIf="!dataLoading">
+    <router-outlet></router-outlet>
+  </ng-container>
 </div>

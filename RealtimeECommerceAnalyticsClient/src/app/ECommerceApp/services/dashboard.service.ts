@@ -1,6 +1,7 @@
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
+import {AggregatedResponse} from '../models/aggregated-response';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
@@ -10,7 +11,7 @@ export class DashboardService {
     @Inject('API_URL') private apiUrl: string,
   ) {}
 
-  getDashboardData(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/Data/getAllData`);
+  getDashboardData(): Observable<AggregatedResponse> {
+    return this.http.get<AggregatedResponse>(`${this.apiUrl}/api/Data/getAllData`);
   }
 }

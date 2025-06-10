@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using RealtimeECommerceAnalytics.Enums;
 using RealtimeECommerceAnalytics.HUBs;
 using RealtimeECommerceAnalytics.Models.DTOs;
+using RealtimeECommerceAnalytics.Models.Response;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 using RealtimeECommerceAnalytics.Services.Mongo;
 
@@ -23,7 +25,7 @@ namespace RealtimeECommerceAnalytics.Services
             _hubContext = hubContext;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAggregatedDataAsync()
+        public async Task<AggregatedDataResponse> GetAggregatedDataAsync()
         {
             try
             {
@@ -33,7 +35,14 @@ namespace RealtimeECommerceAnalytics.Services
 
                 // await _mongo.SaveManyAsync(aggregated);
 
-                return aggregated;
+                return new AggregatedDataResponse
+                {
+                    FakeStoreData = aggregated.Where(x => x.Source == DataSource.FakeStore).ToList(),
+                    DummyJsonData = aggregated.Where(x => x.Source == DataSource.DummyJSON).ToList(),
+                    OpenLibraryData = aggregated.Where(x => x.Source == DataSource.OpenLibrary).ToList(),
+                    OpenFoodFactsData = aggregated.Where(x => x.Source == DataSource.OpenFoodFacts).ToList(),
+                    CryptoData = aggregated.Where(x => x.Source == DataSource.CoinGecko).ToList()
+                };
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using RealtimeECommerceAnalytics.Models.DTOs;
+﻿using RealtimeECommerceAnalytics.Enums;
+using RealtimeECommerceAnalytics.Models.DTOs;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 using System.Text.Json;
 
@@ -32,7 +33,7 @@ namespace RealtimeECommerceAnalytics.Services
                 Price = p.Price,
                 Category = p.Category,
                 ImageUrl = p.Thumbnail,
-                Source = "DummyJSON",
+                Source = DataSource.DummyJSON,
             });
         }
     }

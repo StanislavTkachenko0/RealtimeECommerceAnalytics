@@ -1,4 +1,5 @@
-﻿using RealtimeECommerceAnalytics.Models.DTOs;
+﻿using RealtimeECommerceAnalytics.Enums;
+using RealtimeECommerceAnalytics.Models.DTOs;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 using System.Text.Json;
 
@@ -29,12 +30,19 @@ namespace RealtimeECommerceAnalytics.Services
 
             foreach (var book in books.EnumerateArray())
             {
+                var title = book.GetProperty("title").GetString() ?? "Unknown";
+                var authors = book.TryGetProperty("authors", out var authorsArray) && authorsArray.ValueKind == JsonValueKind.Array
+                    ? authorsArray.GetArrayLength()
+                    : 1;
+
+                double pseudoPrice = Math.Round((title.Length + authors * 3) / 5.0, 2);
+
                 result.Add(new ProductDto
                 {
-                    Title = book.GetProperty("title").GetString(),
+                    Title = title,
                     Category = "Programming",
-                    Price = null,
-                    Source = "OpenLibrary",
+                    Price = pseudoPrice,
+                    Source = DataSource.OpenLibrary,
                 });
             }
 

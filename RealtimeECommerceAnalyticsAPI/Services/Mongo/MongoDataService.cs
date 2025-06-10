@@ -31,7 +31,7 @@ namespace RealtimeECommerceAnalytics.Services.Mongo
 
         public async Task<List<ProductDto>> GetBySourceAsync(string source)
         {
-            return await _collection.Find(p => p.Source == source).ToListAsync();
+            return await _collection.Find(p => p.Source.ToString() == source).ToListAsync();
         }
     }
 }

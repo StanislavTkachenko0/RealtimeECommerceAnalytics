@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using RealtimeECommerceAnalytics.Enums;
 using RealtimeECommerceAnalytics.HUBs;
 using RealtimeECommerceAnalytics.Models.DTOs;
 using RealtimeECommerceAnalytics.Services.Interfaces;
@@ -37,8 +38,8 @@ namespace RealtimeECommerceAnalytics.Services
             {
                 Title = item.GetProperty("name").GetString(),
                 Category = "crypto",
-                Price = item.TryGetProperty("current_price", out var price) ? price.GetDecimal() : null,
-                Source = "CoinGecko",
+                Price = item.TryGetProperty("current_price", out var price) ? price.GetDouble() : null,
+                Source = DataSource.CoinGecko,
             });
 
             return result;

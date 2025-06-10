@@ -1,0 +1,14 @@
+<div class="analytics-container">
+  <div>
+    <h2>Статистика по їжі:</h2>
+    <div style="display: block;">
+      <canvas baseChart
+              [data]="barFoodChartData"
+              [labels]="barFoodChartLabels"
+              [options]="barFoodChartOptions"
+              [legend]="true"
+              [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
+</div>

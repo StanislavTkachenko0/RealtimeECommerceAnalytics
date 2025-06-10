@@ -7,10 +7,11 @@ import {environment} from './environment/environment';
 import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EcommerceAppModule} from './ECommerceApp/ecommerce-app.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     CommonModule,
