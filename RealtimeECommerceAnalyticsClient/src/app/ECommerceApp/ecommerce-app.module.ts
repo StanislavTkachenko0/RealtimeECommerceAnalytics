@@ -25,7 +25,7 @@ import {FloatLabelModule} from 'primeng/floatlabel';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './guards/auth.guard';
-import {AuthService} from './services/auth.service';
+import {AuthService} from '../services/auth.service';
 import { CryptoAnalyticsComponent } from './components/dashboard/components/crypto-analytics/crypto-analytics.component';
 import { ClientBusyComponent } from './components/client-busy/client-busy.component';
 import { FakeStoreComponent } from './components/dashboard/components/fake-store/fake-store.component';
@@ -33,6 +33,7 @@ import {TabMenuModule} from "primeng/tabmenu";
 import { DummyComponent } from './components/dashboard/components/dummy/dummy.component';
 import { OpenFoodComponent } from './components/dashboard/components/open-food/open-food.component';
 import { OpenLibraryComponent } from './components/dashboard/components/open-library/open-library.component';
+import {NavBarModule} from "../modules/nav-bar/nav-bar.module";
 
 Chart.register(
   BarElement,
@@ -57,79 +58,79 @@ Chart.register(
     OpenFoodComponent,
     OpenLibraryComponent
   ],
-  imports: [
-    RouterModule.forChild([
-        {
-          path: 'sign-in',
-          component: SignInUpComponent
-        },
-        {
-          path: 'sign-up',
-          component: SignInUpComponent
-        },
-        {
-          path: '',
-          component: MainPageComponent,
-          canActivate: [AuthGuard],
-          children: [
-            {
-              path: '', redirectTo: 'dashboard', pathMatch: 'full'
-            },
-            {
-              path: 'dashboard',
-              component: DashboardComponent,
-              children: [
+    imports: [
+        RouterModule.forChild([
                 {
-                  path: '',
-                  redirectTo: 'crypto',
-                  pathMatch: 'full'
+                    path: 'sign-in',
+                    component: SignInUpComponent
                 },
                 {
-                  path: 'crypto',
-                  component: CryptoAnalyticsComponent
+                    path: 'sign-up',
+                    component: SignInUpComponent
                 },
                 {
-                  path: 'fake-store',
-                  component: FakeStoreComponent
+                    path: '',
+                    component: MainPageComponent,
+                    canActivate: [AuthGuard],
+                    children: [
+                        {
+                            path: '', redirectTo: 'dashboard', pathMatch: 'full'
+                        },
+                        {
+                            path: 'dashboard',
+                            component: DashboardComponent,
+                            children: [
+                                {
+                                    path: '',
+                                    redirectTo: 'crypto',
+                                    pathMatch: 'full'
+                                },
+                                {
+                                    path: 'crypto',
+                                    component: CryptoAnalyticsComponent
+                                },
+                                {
+                                    path: 'fake-store',
+                                    component: FakeStoreComponent
+                                },
+                                {
+                                    path: 'dummy',
+                                    component: DummyComponent
+                                },
+                                {
+                                    path: 'open-food',
+                                    component: OpenFoodComponent
+                                },
+                                {
+                                    path: 'open-library',
+                                    component: OpenLibraryComponent
+                                }
+                            ]
+                        },
+                    ]
                 },
-                {
-                  path: 'dummy',
-                  component: DummyComponent
-                },
-                {
-                  path: 'open-food',
-                  component: OpenFoodComponent
-                },
-                {
-                  path: 'open-library',
-                  component: OpenLibraryComponent
-                }
-              ]
-            },
-          ]
-        },
-        {path: '**', redirectTo: 'sign-in'}
-      ]
-    ),
-    NgForOf,
-    BaseChartDirective,
-    ReactiveFormsModule,
-    NgIf,
-    PasswordModule,
-    ButtonDirective,
-    InputTextModule,
-    CardModule,
-    FloatLabelModule,
-    HttpClientModule,
-    TabMenuModule,
-  ],
+                {path: '**', redirectTo: 'sign-in'}
+            ]
+        ),
+        NgForOf,
+        BaseChartDirective,
+        ReactiveFormsModule,
+        NgIf,
+        PasswordModule,
+        ButtonDirective,
+        InputTextModule,
+        CardModule,
+        FloatLabelModule,
+        HttpClientModule,
+        TabMenuModule,
+        NavBarModule,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     },
-    AuthService,
     AuthGuard
   ],
   bootstrap: []

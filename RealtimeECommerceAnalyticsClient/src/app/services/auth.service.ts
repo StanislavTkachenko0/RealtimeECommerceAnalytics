@@ -1,9 +1,10 @@
 import {Inject, Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Router } from '@angular/router';
-import { AuthModel } from '../models/auth.model';
-import { RegisterModel } from '../models/register.model';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable, tap} from 'rxjs';
+import {Router} from '@angular/router';
+import {AuthModel} from '../ECommerceApp/models/auth.model';
+import {RegisterModel} from '../ECommerceApp/models/register.model';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,14 @@ export class AuthService {
 
   private hasToken(): boolean {
     return !!localStorage.getItem(this.tokenKey);
+  }
+
+  public getTokenInfo() {
+    const token = this.getToken();
+    if (token) {
+      return jwtDecode(token);
+    }
+
+    return undefined;
   }
 }

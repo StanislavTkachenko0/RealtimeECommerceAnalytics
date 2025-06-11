@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-sign-in-up',
@@ -45,7 +45,7 @@ export class SignInUpComponent {
       this.authService.login(this.authForm.value).subscribe(res => {
         console.log(res)
 
-        this.router.navigate(['/dashboard']).then();
+        this.router.navigate(['/client']).then();
       })
     } else {
       // Вызов метода регистрации

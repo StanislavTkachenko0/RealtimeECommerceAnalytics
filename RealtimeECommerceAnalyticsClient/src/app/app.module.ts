@@ -7,7 +7,10 @@ import {environment} from './environment/environment';
 import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EcommerceAppModule} from './ECommerceApp/ecommerce-app.module';
-import {RouterModule} from '@angular/router';
+import {EcommerceAdminModule} from './ECommerceAdmin/ecommerce-admin.module';
+import {AuthService} from './services/auth.service';
+import { NavBarComponent } from './modules/nav-bar/nav-bar.component';
+import {MenubarModule} from 'primeng/menubar';
 
 @NgModule({
   declarations: [
@@ -18,13 +21,15 @@ import {RouterModule} from '@angular/router';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    EcommerceAppModule
+    EcommerceAppModule,
+    EcommerceAdminModule,
   ],
   providers: [
     {
       provide: 'API_URL',
       useValue: environment.apiUrl
-    }
+    },
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

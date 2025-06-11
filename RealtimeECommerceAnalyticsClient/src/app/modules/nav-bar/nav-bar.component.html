@@ -1,0 +1,9 @@
+<div class="nav-bar flex align-items-center justify-content-between">
+  <div class="nav-bar-logo-container flex align-items-center">
+    <img src="assets/img/ecommerce.png" height="50" alt="Logo" />
+    <span class="nav-name">E-Commerce</span>
+  </div>
+
+  <p-menu #menu [model]="items" [popup]="true" />
+  <p-button (onClick)="menu.toggle($event)" icon="pi pi-bars"/>
+</div>

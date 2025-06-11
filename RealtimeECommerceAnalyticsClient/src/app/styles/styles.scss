@@ -20,6 +20,19 @@
   gap: 50px;
 }
 
+// nav-bar
+.nav-bar {
+  padding: 15px;
+
+  .nav-bar-logo-container {
+    gap: 15px;
+
+    .nav-name {
+      font-weight: bold;
+    }
+  }
+}
+
 // login
 
 .login-fields {
@@ -27,6 +40,19 @@
   padding: 0 25px;
 
   input {
+    width: 100%;
+  }
+}
+
+// admin
+.main-admin-page {
+  max-width: 1250px;
+  width: 100%;
+}
+
+.control-panel {
+
+  p-accordion {
     width: 100%;
   }
 }
