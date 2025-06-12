@@ -1,6 +1,17 @@
 @use "functions";
 @import "mixins";
 
+.w-100 {
+  width: 100%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.gap-1 {
+  gap: 25px;
+}
 
 .text-center {
     text-align: center;

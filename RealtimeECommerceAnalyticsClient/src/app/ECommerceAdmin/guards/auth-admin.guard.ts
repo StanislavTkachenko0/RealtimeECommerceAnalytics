@@ -6,11 +6,10 @@ import {AuthService} from '../../services/auth.service';
   providedIn: 'root'
 })
 export class AuthAdminGuard implements CanActivate {
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-
-    console.log(this.authService.getTokenInfo())
 
     if (this.authService.isAuthenticated()) {
       return true;

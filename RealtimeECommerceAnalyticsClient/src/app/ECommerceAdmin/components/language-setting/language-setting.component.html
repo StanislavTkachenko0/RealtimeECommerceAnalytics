@@ -1,0 +1,44 @@
+<div *ngIf="languages.length > 0" class="grid">
+  <div
+    class="w-100"
+    *ngFor="let lang of languages; let i = index"
+  >
+    <p-card class="language-card">
+
+      <div class="my-2">
+        <div class="header-content flex justify-content-between align-items-center">
+          <span class="font-bold text-lg">{{ lang.languageName }}</span>
+          <span class="text-sm text-muted">({{ lang.languageCode }})</span>
+        </div>
+
+        <p><strong>Version:</strong> {{ lang.version }}</p>
+      </div>
+
+      <div class="flex align-items-center flex-wrap gap-1">
+        <p-fileUpload
+          mode="basic"
+          name="jsonFile"
+          accept=".json"
+          customUpload="true"
+          (uploadHandler)="uploadJson($event, lang.languageCode)"
+          chooseLabel="Upload JSON"
+          class="w-full"
+        ></p-fileUpload>
+
+        <p-button
+          label="Download JSON"
+          icon="pi pi-download"
+          class="p-button-info w-full"
+          (onClick)="downloadJson(lang.languageCode)"
+        ></p-button>
+
+        <p-button
+          label="Remove"
+          icon="pi pi-trash"
+          class="p-button-danger w-full"
+          (onClick)="deleteLanguage(lang.languageCode)"
+        ></p-button>
+      </div>
+    </p-card>
+  </div>
+</div>

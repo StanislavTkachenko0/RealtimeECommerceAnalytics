@@ -3,14 +3,6 @@
 @use "mixins";
 @use "variables/common";
 
-.w-100 {
-  width: 100%;
-}
-
-.w-50 {
-  width: 50%;
-}
-
 .analytics-container {
   display: flex;
   justify-content: center;
@@ -54,5 +46,12 @@
 
   p-accordion {
     width: 100%;
+  }
+}
+
+.language-card {
+
+  .header-content {
+
   }
 }

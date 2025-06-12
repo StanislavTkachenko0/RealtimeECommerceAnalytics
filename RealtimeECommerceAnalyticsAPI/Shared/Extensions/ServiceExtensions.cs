@@ -16,7 +16,8 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
             services.AddScoped<IApiSourceService, OpenFoodFactsApiService>();
             services.AddScoped<IApiSourceService, CryptoService>();
             services.AddScoped<IAggregatorService, AggregatorService>();
-            // services.AddScoped<ICryptoService, CryptoService>();
+            services.AddScoped<ITranslationCacheService, TranslationCacheService>();
+            services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<MarketplaceService>();
 
             // Singleton
