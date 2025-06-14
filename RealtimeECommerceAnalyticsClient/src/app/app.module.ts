@@ -9,10 +9,20 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EcommerceAppModule} from './ECommerceApp/ecommerce-app.module';
 import {EcommerceAdminModule} from './ECommerceAdmin/ecommerce-admin.module';
 import {AuthService} from './services/auth.service';
-import { NavBarComponent } from './modules/nav-bar/nav-bar.component';
-import {MenubarModule} from 'primeng/menubar';
 import {ToastModule} from "primeng/toast";
 import {MessageService} from 'primeng/api';
+import {HttpClient} from '@angular/common/http';
+import {LanguageService} from './services/language.service';
+import { TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {BrowserStorageService} from './services/browser-storage.service';
+import {DbTranslateLoader} from './services/db-tanslate.loader';
+
+export function createTranslateLoader(
+  http: HttpClient,
+  storageService: BrowserStorageService,
+) {
+  return new DbTranslateLoader(http, storageService);
+}
 
 @NgModule({
   declarations: [
@@ -26,6 +36,14 @@ import {MessageService} from 'primeng/api';
         EcommerceAppModule,
         EcommerceAdminModule,
         ToastModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: createTranslateLoader,
+            deps: [HttpClient, BrowserStorageService],
+          },
+          useDefaultLang: false,
+        }),
     ],
   providers: [
     {

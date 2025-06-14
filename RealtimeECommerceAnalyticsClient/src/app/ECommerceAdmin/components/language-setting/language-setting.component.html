@@ -1,6 +1,6 @@
 <div *ngIf="languages.length > 0" class="grid">
   <div
-    class="w-100"
+    class="w-100 mt"
     *ngFor="let lang of languages; let i = index"
   >
     <p-card class="language-card">
@@ -36,9 +36,48 @@
           label="Remove"
           icon="pi pi-trash"
           class="p-button-danger w-full"
-          (onClick)="deleteLanguage(lang.languageCode)"
+          (onClick)="removeLanguage(lang.languageCode)"
         ></p-button>
       </div>
     </p-card>
   </div>
+
+  <div class="flex justify-content-end w-100 mt">
+    <p-button
+      label="Add Language"
+      icon="pi pi-plus"
+      class="p-button-danger w-full"
+      (onClick)="openOrCloseAddLanguageDialog()"
+    ></p-button>
+  </div>
 </div>
+
+<p-dialog
+  #dialog
+  header="Add Language"
+  [(visible)]="addLanguageDialogIsOpened"
+  [modal]="true"
+  [style]="{width: '350px'}"
+  [closable]="true">
+
+  <div class="p-fluid flex flex-direction-column gap-1">
+    <div class="p-field">
+      <label for="langName">Language Name</label>
+      <input id="langName" type="text" pInputText [(ngModel)]="languageName" name="langName" />
+    </div>
+
+    <div class="p-field">
+      <label for="langCode">Language Code</label>
+      <input id="langCode" type="text" maxlength="2" pInputText [(ngModel)]="languageCode" name="langCode" />
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Add"
+      icon="pi pi-check"
+      (onClick)="addLanguage($event, dialog)"
+      class="p-button-success">
+    </p-button>
+  </ng-template>
+</p-dialog>

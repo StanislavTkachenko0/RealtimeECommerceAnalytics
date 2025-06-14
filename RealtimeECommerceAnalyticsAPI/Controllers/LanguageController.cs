@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealtimeECommerceAnalytics.Models;
+using RealtimeECommerceAnalytics.Models.Admin;
 using RealtimeECommerceAnalytics.Services.Interfaces;
+using RealtimeECommerceAnalytics.Shared.Toolkit;
 using System.Text;
 
 namespace RealtimeECommerceAnalytics.Controllers
@@ -43,6 +45,54 @@ namespace RealtimeECommerceAnalytics.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpDelete]
+        [Route(nameof(RemoveLanguage))]
+        public async Task<IActionResult> RemoveLanguage(string code)
+        {
+            await _languageService.RemoveLanguage(code);
+            _translationCacheService.ResetCache();
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route(nameof(GetLanguage))]
+        public LanguageModel GetLanguage(string code = "")
+        {
+            var storedLanguage = _languageService.GetLanguage(code);
+            var lang = ObjectCopier.Clone(storedLanguage);
+            return lang;
+        }
+
+        [HttpGet]
+        [Route(nameof(GetLanguageJsonHolder))]
+        public LanguageJsonHolder GetLanguageJsonHolder(string code = "")
+        {
+            var storedLanguage = _languageService.GetLanguageJsonHolder(code);
+            var lang = ObjectCopier.Clone(storedLanguage);
+
+            return lang;
+        }
+
+        [HttpPost]
+        [Route(nameof(AddLanguage))]
+        public async Task<IActionResult> AddLanguage([FromBody] AddLanguageModel model)
+        {
+            await _languageService.AddLanguage(model);
+            _translationCacheService.ResetCache();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route(nameof(DownloadJson))]
+        public async Task<IActionResult> DownloadJson(string code)
+        {
+            var json = await _languageService.GetJson(code);
+            var jsonBytes = Encoding.UTF8.GetBytes(json);
+
+            return File(jsonBytes, "application/octet-stream");
         }
     }
 }

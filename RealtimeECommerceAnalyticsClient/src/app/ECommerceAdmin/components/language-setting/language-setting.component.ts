@@ -2,8 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {LanguageService} from '../../../services/language.service';
 import {FileUploadHandlerEvent} from 'primeng/fileupload';
-import {Language} from '../../../models/language';
+import {AddLanguage, Language} from '../../../models/language';
 import {Subject, takeUntil} from 'rxjs';
+import {Dialog} from 'primeng/dialog';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'language-setting',
@@ -15,6 +17,10 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
 
   public languages: Language[] = [];
+
+  public addLanguageDialogIsOpened = false;
+  public languageName = '';
+  public languageCode = '';
 
   constructor(
     private messageService: MessageService,
@@ -31,13 +37,15 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
     this.getLanguages();
   }
 
-  private getLanguages() {
+  private getLanguages(changed: boolean = false) {
     this.langService.getLanguages()
       .pipe(takeUntil(this.destroy$))
       .subscribe(langs => {
         this.languages = [...langs];
 
-        console.log(this.languages)
+        if (changed) {
+          this.langService.onChangedLanguages.next();
+        }
       })
   }
 
@@ -48,30 +56,51 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const content = (reader.result as string).split(',')[1];
-        console.log(content)
         this.langService.uploadJson(code, content)
           .pipe(takeUntil(this.destroy$))
           .subscribe(res => {
-          console.log('here', res)
-        });
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Translations file successfuly upload.' });
+          });
       };
     }
   }
 
   downloadJson(code: string) {
-    const data = { example: 'value' };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'data.json';
-    a.click();
-
-    window.URL.revokeObjectURL(url);
+    this.langService.downloadJson(code)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        FileSaver.saveAs(data, 'translation.' + code + '.json');
+      })
   }
 
-  deleteLanguage(code: string) {
+  removeLanguage(code: string) {
+    this.langService.removeLanguage(code)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfuly deleted.' });
 
+        this.getLanguages(true);
+      })
+  }
+
+  openOrCloseAddLanguageDialog(): void {
+    this.addLanguageDialogIsOpened = !this.addLanguageDialogIsOpened;
+  }
+
+  addLanguage(event: Event, dialog: Dialog): void {
+    const model: AddLanguage = {
+      languageName: this.languageName,
+      languageCode: this.languageCode,
+    }
+
+    this.langService.addLanguage(model)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfuly added.' });
+
+        dialog.close(event);
+
+        this.getLanguages(true);
+      })
   }
 }

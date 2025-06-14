@@ -3,3 +3,9 @@ export interface Language {
   languageCode: string;
   version: number;
 }
+
+export interface AddLanguage {
+  languageName: string;
+  languageCode: string;
+}
+

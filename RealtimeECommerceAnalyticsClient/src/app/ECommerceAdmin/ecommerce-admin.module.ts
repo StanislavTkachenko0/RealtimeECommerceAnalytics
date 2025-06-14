@@ -9,6 +9,10 @@ import { LanguageSettingComponent } from './components/language-setting/language
 import {FileUploadModule} from "primeng/fileupload";
 import {NgForOf, NgIf} from "@angular/common";
 import {CardModule} from 'primeng/card';
+import {DialogModule} from "primeng/dialog";
+import {FormsModule} from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
+import {TranslatePipe} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -17,30 +21,34 @@ import {CardModule} from 'primeng/card';
       ControlPanelPageComponent,
       LanguageSettingComponent
   ],
-  imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: MainAdminPageComponent,
-        canActivate: [AuthAdminGuard],
-        children: [
-          {
-            path: '', redirectTo: 'control-panel', pathMatch: 'full'
-          },
-          {
-            path: 'control-panel',
-            component: ControlPanelPageComponent
-          },
-        ]
-      }
-    ]),
-    NavBarModule,
-    AccordionModule,
-    FileUploadModule,
-    NgForOf,
-    CardModule,
-    NgIf
-  ],
+    imports: [
+        RouterModule.forChild([
+            {
+                path: '',
+                component: MainAdminPageComponent,
+                canActivate: [AuthAdminGuard],
+                children: [
+                    {
+                        path: '', redirectTo: 'control-panel', pathMatch: 'full'
+                    },
+                    {
+                        path: 'control-panel',
+                        component: ControlPanelPageComponent
+                    },
+                ]
+            }
+        ]),
+        NavBarModule,
+        AccordionModule,
+        FileUploadModule,
+        NgForOf,
+        CardModule,
+        NgIf,
+        DialogModule,
+        FormsModule,
+        InputTextModule,
+        TranslatePipe
+    ],
   providers: [
     AuthAdminGuard
   ],

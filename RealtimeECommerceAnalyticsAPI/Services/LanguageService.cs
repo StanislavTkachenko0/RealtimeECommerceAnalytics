@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using RealtimeECommerceAnalytics.DataBaseContext;
 using RealtimeECommerceAnalytics.Enums;
 using RealtimeECommerceAnalytics.Models;
+using RealtimeECommerceAnalytics.Models.Admin;
 using RealtimeECommerceAnalytics.Services.Interfaces;
 
 namespace RealtimeECommerceAnalytics.Services
@@ -49,11 +50,11 @@ namespace RealtimeECommerceAnalytics.Services
             return tempLangs;
         }
 
-        public async Task AddLanguage(string languageName, string languageCode)
+        public async Task AddLanguage(AddLanguageModel model)
         {
-            if (_context.Languages.Any(lng => lng.LanguageCode == languageCode.ToLower()))
+            if (_context.Languages.Any(lng => lng.LanguageCode == model.LanguageCode.ToLower()))
             {
-                throw new Exception("Language with \"" + languageCode.ToLower() + "\" already exsit");
+                throw new Exception("Language with \"" + model.LanguageCode.ToLower() + "\" already exsit");
             }
 
             var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Template", "default_language.json");
@@ -63,8 +64,8 @@ namespace RealtimeECommerceAnalytics.Services
 
             _context.Languages.Add(new LanguageModel()
             {
-                LanguageName = languageName,
-                LanguageCode = languageCode.ToLower(),
+                LanguageName = model.LanguageName,
+                LanguageCode = model.LanguageCode.ToLower(),
                 TranslationJson = json,
             });
 
@@ -100,6 +101,7 @@ namespace RealtimeECommerceAnalytics.Services
                     LanguageName = storedLang.LanguageName,
                     LanguageCode = storedLang.LanguageCode,
                     Version = storedLang.Version,
+                    TranslationJson = storedLang.TranslationJson,
                 };
 
                 _translationCacheService.Set(key, language);
@@ -144,6 +146,51 @@ namespace RealtimeECommerceAnalytics.Services
             lang.Version++;
 
             await _context.SaveChangesAsync();
+        }
+
+        public LanguageJsonHolder GetLanguageJsonHolder(string code)
+        {
+            string countryCode = code.ToLower();
+            string key = _translationCacheService.GetKey(TranslationType.Language, countryCode);
+
+            lock (_translationCacheService.GetSyncObject(key))
+            {
+                var holder = TryGetValidCachedHolder(countryCode);
+                if (holder != null)
+                    return holder;
+
+                if (HasLanguage(countryCode))
+                {
+                    return SetLanguageInCache(countryCode);
+                }
+
+                var fallbackHolder = TryGetValidCachedHolder("en");
+                return fallbackHolder ?? SetLanguageInCache("en");
+            }
+        }
+
+        private LanguageJsonHolder? TryGetValidCachedHolder(string code)
+        {
+            var key = _translationCacheService.GetKey(TranslationType.Language, code);
+            var cached = _translationCacheService.Get<LanguageJsonHolder>(key);
+
+            return cached != null && GetVersion(cached.languageCode) == cached.Version
+                ? cached
+                : null;
+        }
+
+        private LanguageJsonHolder SetLanguageInCache(string code)
+        {
+            var key = _translationCacheService.GetKey(TranslationType.Language, code);
+
+            var holder = new LanguageJsonHolder
+            {
+                json = GetJson(code).Result,
+                languageCode = code,
+                Version = GetVersion(code)
+            };
+
+            return _translationCacheService.Set(key, holder);
         }
 
         private async Task AddFirstLanguageAsync()

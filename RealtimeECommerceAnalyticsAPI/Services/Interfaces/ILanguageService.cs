@@ -1,4 +1,5 @@
 ﻿using RealtimeECommerceAnalytics.Models;
+using RealtimeECommerceAnalytics.Models.Admin;
 
 namespace RealtimeECommerceAnalytics.Services.Interfaces
 {
@@ -9,9 +10,10 @@ namespace RealtimeECommerceAnalytics.Services.Interfaces
         Task UploadJson(string code, string json);
         int GetVersion(string code);
         Task<List<LanguageModel>> GetLanguagesInfo();
-        Task AddLanguage(string languageName, string languageCode);
+        Task AddLanguage(AddLanguageModel model);
         Task RemoveLanguage(string code);
         LanguageModel GetLanguage(string code);
         Task<string> GetJson(string code);
+        LanguageJsonHolder GetLanguageJsonHolder(string code);
     }
 }

@@ -4,6 +4,19 @@
     <span class="nav-name">E-Commerce</span>
   </div>
 
-  <p-menu #menu [model]="items" [popup]="true" />
-  <p-button (onClick)="menu.toggle($event)" icon="pi pi-bars"/>
+  <div class="flex align-items-center gap-1">
+    <div>
+      <p-dropdown
+        [options]="languages"
+        [(ngModel)]="selectedLanguage"
+        optionLabel="languageName"
+        [placeholder]="'SelectLanguage' | translate"
+        (onChange)="onChangeLanguage($event.value)">
+      </p-dropdown>
+    </div>
+    <div>
+      <p-menu #menu [model]="items" [popup]="true" />
+      <p-button (onClick)="menu.toggle($event)" icon="pi pi-bars"/>
+    </div>
+  </div>
 </div>
