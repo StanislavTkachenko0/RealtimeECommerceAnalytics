@@ -39,23 +39,35 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    const raw = localStorage.getItem(this.tokenKey);
+    if (!raw) return null;
+
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      console.error('Invalid token format in storage:', e);
+      return null;
+    }
   }
 
   isAuthenticated(): boolean {
     return this.hasToken();
   }
 
-  private hasToken(): boolean {
+  public hasToken(): boolean {
     return !!localStorage.getItem(this.tokenKey);
   }
 
-  public getTokenInfo() {
+  public isTokenExpired(): boolean {
     const token = this.getToken();
-    if (token) {
-      return jwtDecode(token);
-    }
+    if (!token) return true;
 
-    return undefined;
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Math.floor(Date.now() / 1000); // В секундах
+      return decoded.exp < now;
+    } catch {
+      return true;
+    }
   }
 }

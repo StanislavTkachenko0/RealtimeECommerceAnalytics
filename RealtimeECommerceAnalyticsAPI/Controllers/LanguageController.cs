@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealtimeECommerceAnalytics.Models;
 using RealtimeECommerceAnalytics.Models.Admin;
 using RealtimeECommerceAnalytics.Services.Interfaces;
@@ -33,6 +34,7 @@ namespace RealtimeECommerceAnalytics.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route(nameof(UploadJson))]
         public async Task<IActionResult> UploadJson(string code)
         {
@@ -48,6 +50,7 @@ namespace RealtimeECommerceAnalytics.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [Route(nameof(RemoveLanguage))]
         public async Task<IActionResult> RemoveLanguage(string code)
         {
@@ -77,6 +80,7 @@ namespace RealtimeECommerceAnalytics.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route(nameof(AddLanguage))]
         public async Task<IActionResult> AddLanguage([FromBody] AddLanguageModel model)
         {
@@ -86,6 +90,7 @@ namespace RealtimeECommerceAnalytics.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route(nameof(DownloadJson))]
         public async Task<IActionResult> DownloadJson(string code)
         {

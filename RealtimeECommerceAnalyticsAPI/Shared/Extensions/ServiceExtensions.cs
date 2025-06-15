@@ -18,6 +18,7 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
             services.AddScoped<IAggregatorService, AggregatorService>();
             services.AddScoped<ITranslationCacheService, TranslationCacheService>();
             services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<MarketplaceService>();
 
             // Singleton

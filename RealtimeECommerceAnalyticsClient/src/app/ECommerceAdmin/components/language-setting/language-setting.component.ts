@@ -59,7 +59,7 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
         this.langService.uploadJson(code, content)
           .pipe(takeUntil(this.destroy$))
           .subscribe(res => {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Translations file successfuly upload.' });
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Translations file successfully upload.' });
           });
       };
     }
@@ -77,7 +77,7 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
     this.langService.removeLanguage(code)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfuly deleted.' });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfully deleted.' });
 
         this.getLanguages(true);
       })
@@ -96,7 +96,7 @@ export class LanguageSettingComponent implements OnInit, OnDestroy {
     this.langService.addLanguage(model)
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfuly added.' });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Language successfully added.' });
 
         dialog.close(event);
 

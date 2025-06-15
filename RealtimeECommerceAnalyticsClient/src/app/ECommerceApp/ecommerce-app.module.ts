@@ -22,7 +22,7 @@ import {ButtonDirective} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {FloatLabelModule} from 'primeng/floatlabel';
-import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {AuthInterceptor} from '../interceptors/auth.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './guards/auth.guard';
 import {AuthService} from '../services/auth.service';
@@ -126,11 +126,6 @@ Chart.register(
         NavBarModule,
     ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
     AuthGuard
   ],
   bootstrap: []

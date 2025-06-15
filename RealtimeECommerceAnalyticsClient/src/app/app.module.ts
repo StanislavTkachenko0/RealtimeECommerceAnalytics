@@ -10,12 +10,15 @@ import {EcommerceAppModule} from './ECommerceApp/ecommerce-app.module';
 import {EcommerceAdminModule} from './ECommerceAdmin/ecommerce-admin.module';
 import {AuthService} from './services/auth.service';
 import {ToastModule} from "primeng/toast";
-import {MessageService} from 'primeng/api';
-import {HttpClient} from '@angular/common/http';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {LanguageService} from './services/language.service';
 import { TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {BrowserStorageService} from './services/browser-storage.service';
 import {DbTranslateLoader} from './services/db-tanslate.loader';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 export function createTranslateLoader(
   http: HttpClient,
@@ -28,30 +31,38 @@ export function createTranslateLoader(
   declarations: [
     AppComponent
   ],
-    imports: [
-        CommonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        EcommerceAppModule,
-        EcommerceAdminModule,
-        ToastModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: createTranslateLoader,
-            deps: [HttpClient, BrowserStorageService],
-          },
-          useDefaultLang: false,
-        }),
-    ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    EcommerceAppModule,
+    EcommerceAdminModule,
+    ToastModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient, BrowserStorageService],
+      },
+      useDefaultLang: false,
+    }),
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+  ],
   providers: [
     {
       provide: 'API_URL',
       useValue: environment.apiUrl
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     AuthService,
-    MessageService
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

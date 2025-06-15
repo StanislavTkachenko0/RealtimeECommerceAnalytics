@@ -33,7 +33,7 @@
         ></p-button>
 
         <p-button
-          label="Remove"
+          [label]="'Remove' | translate"
           icon="pi pi-trash"
           class="p-button-danger w-full"
           (onClick)="removeLanguage(lang.languageCode)"

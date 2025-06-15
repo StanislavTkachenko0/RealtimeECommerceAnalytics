@@ -13,13 +13,16 @@ import {DialogModule} from "primeng/dialog";
 import {FormsModule} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {TranslatePipe} from "@ngx-translate/core";
+import { UsersSettingComponent } from './components/users-setting/users-setting.component';
+import {TableModule} from "primeng/table";
 
 @NgModule({
   declarations: [
       MainAdminPageComponent,
       MainAdminPageComponent,
       ControlPanelPageComponent,
-      LanguageSettingComponent
+      LanguageSettingComponent,
+      UsersSettingComponent
   ],
     imports: [
         RouterModule.forChild([
@@ -47,7 +50,8 @@ import {TranslatePipe} from "@ngx-translate/core";
         DialogModule,
         FormsModule,
         InputTextModule,
-        TranslatePipe
+        TranslatePipe,
+        TableModule
     ],
   providers: [
     AuthAdminGuard

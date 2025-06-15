@@ -5,6 +5,7 @@ using RealtimeECommerceAnalytics.Services.Interfaces;
 namespace RealtimeECommerceAnalytics.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class DataController : Controller
     {
