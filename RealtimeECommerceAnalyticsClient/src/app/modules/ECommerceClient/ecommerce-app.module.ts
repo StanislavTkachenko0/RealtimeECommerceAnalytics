@@ -22,10 +22,10 @@ import {ButtonDirective} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {CardModule} from 'primeng/card';
 import {FloatLabelModule} from 'primeng/floatlabel';
-import {AuthInterceptor} from '../interceptors/auth.interceptor';
+import {AuthInterceptor} from '../../interceptors/auth.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './guards/auth.guard';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import { CryptoAnalyticsComponent } from './components/dashboard/components/crypto-analytics/crypto-analytics.component';
 import { ClientBusyComponent } from './components/client-busy/client-busy.component';
 import { FakeStoreComponent } from './components/dashboard/components/fake-store/fake-store.component';
@@ -33,7 +33,8 @@ import {TabMenuModule} from "primeng/tabmenu";
 import { DummyComponent } from './components/dashboard/components/dummy/dummy.component';
 import { OpenFoodComponent } from './components/dashboard/components/open-food/open-food.component';
 import { OpenLibraryComponent } from './components/dashboard/components/open-library/open-library.component';
-import {NavBarModule} from "../modules/nav-bar/nav-bar.module";
+import {NavBarModule} from "../nav-bar/nav-bar.module";
+import {ProfileComponent} from '../../components/profile/profile.component';
 
 Chart.register(
   BarElement,
@@ -60,14 +61,6 @@ Chart.register(
   ],
     imports: [
         RouterModule.forChild([
-                {
-                    path: 'sign-in',
-                    component: SignInUpComponent
-                },
-                {
-                    path: 'sign-up',
-                    component: SignInUpComponent
-                },
                 {
                     path: '',
                     component: MainPageComponent,
@@ -107,6 +100,10 @@ Chart.register(
                                 }
                             ]
                         },
+                        {
+                          path: 'profile',
+                          component: ProfileComponent,
+                        }
                     ]
                 },
                 {path: '**', redirectTo: 'sign-in'}

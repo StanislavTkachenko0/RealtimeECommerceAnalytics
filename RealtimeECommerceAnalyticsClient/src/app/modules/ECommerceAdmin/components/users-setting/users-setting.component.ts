@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
-import {UserService} from '../../../services/user.service';
-import {User} from '../../../models/user';
+import {UserService} from '../../../../services/user.service';
+import {User} from '../../../../models/user';
 import {ConfirmationService, MessageService} from 'primeng/api';
 
 @Component({
@@ -55,7 +55,7 @@ export class UsersSettingComponent implements OnInit, OnDestroy {
             if (res) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User successfully archived.' });
             } else {
-              this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'User archived failed.' });
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'User archived failed.' });
             }
           })
       }

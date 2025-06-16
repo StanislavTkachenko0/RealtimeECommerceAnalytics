@@ -1,0 +1,57 @@
+<div class="profile mx-auto">
+  <form (ngSubmit)="onSave()" [formGroup]="profileForm" class="space-y-4">
+    <div class="mt">
+      <label>Email</label>
+      <input pInputText
+             formControlName="email"
+             type="email"
+             class="w-100" />
+    </div>
+
+    <div class="mt">
+      <label>First Name</label>
+      <input pInputText
+             formControlName="firstName"
+             class="w-100" />
+    </div>
+
+    <div class="mt">
+      <label>Last Name</label>
+      <input pInputText
+             formControlName="lastName"
+             class="w-100" />
+    </div>
+
+    <div class="pt-4 border-t">
+      <h3 class="text-lg font-semibold mb-2">Change Password</h3>
+      <div>
+        <label>New Password</label>
+        <input pInputText
+               formControlName="password"
+               type="password"
+               class="w-100" />
+      </div>
+      <div class="mt">
+        <label>Confirm Password</label>
+        <input pInputText
+               formControlName="confirmPassword"
+               type="password"
+               class="w-100" />
+
+        <div style="height: 10px">
+          <ng-container *ngIf="(profileForm.get('confirmPassword')?.touched || profileForm.get('confirmPassword')?.dirty)
+                            && profileForm.get('confirmPassword')?.invalid">
+            <small class="p-error"
+                   *ngIf="profileForm.get('confirmPassword')!.hasError('passwordMismatch') && !profileForm.get('password')?.invalid">
+              Passwords do not match.
+            </small>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <button pButton
+            type="submit"
+            [label]="'ChangePassword' | translate" class="mt"></button>
+  </form>
+</div>

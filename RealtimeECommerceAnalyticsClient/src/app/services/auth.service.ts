@@ -2,8 +2,8 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {Router} from '@angular/router';
-import {AuthModel} from '../ECommerceApp/models/auth.model';
-import {RegisterModel} from '../ECommerceApp/models/register.model';
+import {AuthModel} from '../modules/ECommerceClient/models/auth.model';
+import {RegisterModel} from '../modules/ECommerceClient/models/register.model';
 import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
@@ -68,6 +68,30 @@ export class AuthService {
       return decoded.exp < now;
     } catch {
       return true;
+    }
+  }
+
+  public getUserRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+    } catch {
+      return null;
+    }
+  }
+
+  public getUserEmail(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || null;
+    } catch {
+      return null;
     }
   }
 }

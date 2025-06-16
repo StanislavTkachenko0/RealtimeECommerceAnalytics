@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RealtimeECommerceAnalytics.Enums;
 using RealtimeECommerceAnalytics.Models;
 using RealtimeECommerceAnalytics.Models.DTOs;
 using RealtimeECommerceAnalytics.Services.Interfaces;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace RealtimeECommerceAnalytics.Controllers
 {
@@ -38,6 +42,57 @@ namespace RealtimeECommerceAnalytics.Controllers
             var response = await _userService.ArchiveUser(id);
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route(nameof(GetUser))]
+        public async Task<IActionResult> GetUser(string email)
+        {
+            var user = await _userService.GetUser(email);
+
+            if (user is null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPatch(nameof(UpdateField))]
+        public async Task<IActionResult> UpdateField([FromBody] JsonElement body)
+        {
+            var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var result = await _userService.UpdateField(body, email);
+            
+            if (result == ResponseCode.NOT_FOUND)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPatch(nameof(ChangePassword))]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassword model)
+        {
+            var email = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var result = await _userService.ChangePassword(model.NewPassword, email);
+
+            if (result == ResponseCode.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else if (result == ResponseCode.BAD_REQUEST)
+            {
+                return BadRequest("Password can't be same");
+            }
+
+            return NoContent();
         }
     }
 }

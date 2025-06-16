@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {environment} from './environment/environment';
+import {environment} from '../environment/environment';
 import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {EcommerceAppModule} from './ECommerceApp/ecommerce-app.module';
-import {EcommerceAdminModule} from './ECommerceAdmin/ecommerce-admin.module';
+import {EcommerceAppModule} from './modules/ECommerceClient/ecommerce-app.module';
+import {EcommerceAdminModule} from './modules/ECommerceAdmin/ecommerce-admin.module';
 import {AuthService} from './services/auth.service';
 import {ToastModule} from "primeng/toast";
 import {ConfirmationService, MessageService} from 'primeng/api';
@@ -19,6 +19,10 @@ import {DbTranslateLoader} from './services/db-tanslate.loader';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { ProfileComponent } from './components/profile/profile.component';
+import {FileUploadModule} from 'primeng/fileupload';
+import {ReactiveFormsModule} from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
 
 export function createTranslateLoader(
   http: HttpClient,
@@ -29,7 +33,8 @@ export function createTranslateLoader(
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +54,9 @@ export function createTranslateLoader(
     }),
     ConfirmDialogModule,
     ConfirmPopupModule,
+    FileUploadModule,
+    ReactiveFormsModule,
+    InputTextModule,
   ],
   providers: [
     {

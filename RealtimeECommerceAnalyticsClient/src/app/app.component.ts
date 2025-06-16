@@ -3,6 +3,8 @@ import {BrowserStorageService} from './services/browser-storage.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Subject, takeUntil} from 'rxjs';
 import {AuthService} from './services/auth.service';
+import {UserDependent} from './shared/other/user-dependent';
+import {UserService} from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ import {AuthService} from './services/auth.service';
   standalone: false,
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent extends UserDependent {
 
   destroy$ = new Subject<void>();
 
@@ -20,7 +22,10 @@ export class AppComponent {
     storageService: BrowserStorageService,
     translate: TranslateService,
     authService: AuthService,
+    userService: UserService,
   ) {
+    super(authService, userService)
+
     let lang = "";
     if (storageService.getLocal("lang")) {
       lang = storageService.getLocal("lang");

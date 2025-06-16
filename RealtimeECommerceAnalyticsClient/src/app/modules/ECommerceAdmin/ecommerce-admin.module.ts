@@ -3,7 +3,7 @@ import {RouterModule} from '@angular/router';
 import { MainAdminPageComponent } from './pages/main-admin-page/main-admin-page.component';
 import { ControlPanelPageComponent } from './pages/control-panel-page/control-panel-page.component';
 import {AuthAdminGuard} from './guards/auth-admin.guard';
-import {NavBarModule} from '../modules/nav-bar/nav-bar.module';
+import {NavBarModule} from '../nav-bar/nav-bar.module';
 import {AccordionModule} from "primeng/accordion";
 import { LanguageSettingComponent } from './components/language-setting/language-setting.component';
 import {FileUploadModule} from "primeng/fileupload";
@@ -36,7 +36,8 @@ import {TableModule} from "primeng/table";
                     },
                     {
                         path: 'control-panel',
-                        component: ControlPanelPageComponent
+                        component: ControlPanelPageComponent,
+                        canActivate: [AuthAdminGuard],
                     },
                 ]
             }

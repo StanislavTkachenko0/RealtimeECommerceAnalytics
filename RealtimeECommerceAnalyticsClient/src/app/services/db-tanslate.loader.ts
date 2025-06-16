@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BrowserStorageService} from './browser-storage.service';
 import {map, Observable} from 'rxjs';
 import {JsonHolder} from '../models/json-holder';
-import {environment} from '../environment/environment';
+import {environment} from '../../environment/environment';
 import {StorageKeys} from './storage-keys';
 
 export class DbTranslateLoader implements TranslateLoader {

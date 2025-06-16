@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
-import {LanguageService} from '../../../services/language.service';
+import {LanguageService} from '../../../../services/language.service';
 import {FileUploadHandlerEvent} from 'primeng/fileupload';
-import {AddLanguage, Language} from '../../../models/language';
+import {AddLanguage, Language} from '../../../../models/language';
 import {Subject, takeUntil} from 'rxjs';
 import {Dialog} from 'primeng/dialog';
 import * as FileSaver from 'file-saver';

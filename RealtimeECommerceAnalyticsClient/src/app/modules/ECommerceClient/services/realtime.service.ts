@@ -1,7 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
-import {environment} from '../../environment/environment';
+import {environment} from '../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'

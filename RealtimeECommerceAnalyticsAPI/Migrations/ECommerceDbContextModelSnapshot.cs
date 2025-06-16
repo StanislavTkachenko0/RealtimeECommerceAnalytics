@@ -47,7 +47,7 @@ namespace RealtimeECommerceAnalytics.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("RealtimeECommerceAnalytics.Models.UserModel", b =>
@@ -83,7 +83,7 @@ namespace RealtimeECommerceAnalytics.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

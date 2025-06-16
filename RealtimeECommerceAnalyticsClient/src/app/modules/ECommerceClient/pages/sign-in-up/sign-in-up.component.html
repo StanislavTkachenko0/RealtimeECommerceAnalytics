@@ -1,0 +1,91 @@
+<div class="flex justify-content-center align-items-center">
+  <p-card class="w-50">
+    <div class="flex justify-center w-100">
+      <div class="w-100">
+        <h2 class="text-2xl font-semibold text-center mb-4">
+          {{ isLoginMode ? 'Sign In' : 'Sign Up' }}
+        </h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="login-fields flex flex-direction-column">
+            <div>
+              <p-floatLabel>
+                <input pInputText id="email"
+                       formControlName="email"
+                       type="email"
+                       class="w-full"
+                       autocomplete="email" />
+                <label for="email">Email</label>
+              </p-floatLabel>
+              <div style="height: 10px">
+                <ng-container *ngIf="(form.get('email')?.touched || form.get('email')?.dirty)
+                            && form.get('email')?.invalid">
+                  <small *ngIf="form.get('email')?.errors?.['required']" class="p-error">Email is required</small>
+                  <small *ngIf="form.get('email')?.errors?.['email']" class="p-error">Email doesn't correct</small>
+                </ng-container>
+              </div>
+            </div>
+
+            <div>
+              <p-floatLabel>
+                <input pInputText id="password"
+                       formControlName="password"
+                       type="password"
+                       pPassword
+                       toggleMask
+                       [feedback]="false"
+                       autocomplete="current-password"/>
+                <label for="password">Password</label>
+              </p-floatLabel>
+              <div style="height: 10px">
+                <ng-container *ngIf="(form.get('password')?.touched || form.get('password')?.dirty)
+                            && form.get('password')?.invalid">
+                  <small *ngIf="form.get('password')?.errors?.['required']" class="p-error">Password is required</small>
+                  <small *ngIf="form.get('password')?.errors?.['minlength']" class="p-error">Password must be more then 6 symbols</small>
+                </ng-container>
+              </div>
+            </div>
+
+            <div *ngIf="!isLoginMode">
+              <p-floatLabel>
+                <input pInputText id="confirmPassword"
+                       formControlName="confirmPassword"
+                       type="password"
+                       pPassword
+                       toggleMask
+                       [feedback]="false"
+                       autocomplete="new-password"/>
+                <label for="confirmPassword">Confirm Password</label>
+              </p-floatLabel>
+              <div style="height: 10px">
+                <ng-container *ngIf="(form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)
+                            && form.get('confirmPassword')?.invalid">
+                  <small class="p-error"
+                         *ngIf="form.get('confirmPassword')!.hasError('passwordMismatch') && !form.get('password')?.invalid">
+                    Passwords do not match.
+                  </small>
+                </ng-container>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              pButton
+              class="w-full mt-2"
+              [label]="isLoginMode ? 'Sign In' : 'Sign Up'"
+            ></button>
+          </div>
+        </form>
+
+        <p class="text-center mt-4 text-sm">
+          {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+          <a
+            [routerLink]="[isLoginMode ? '/sign-up' : '/sign-in']"
+            class="text-blue-600 hover:underline"
+          >{{ isLoginMode ? 'Sign Up' : 'Sign In' }}</a
+          >
+        </p>
+      </div>
+    </div>
+  </p-card>
+</div>

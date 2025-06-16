@@ -31,6 +31,8 @@ namespace RealtimeECommerceAnalytics.Controllers
             var user = new UserModel
             {
                 Email = dto.Email,
+                FirstName = string.Empty,
+                LastName = string.Empty,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Role = dto.Role
             };
@@ -47,6 +49,11 @@ namespace RealtimeECommerceAnalytics.Controllers
             var user = _dbContext.Users.FirstOrDefault(u => u.Email == dto.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized("Invalid email or password");
+
+            if (user.IsDelete)
+            {
+                return Unauthorized("User was archived, please contact manager: TG: @skye_utf");
+            }
 
             var token = GenerateJwtToken(user.Email, user.Role);
             return Ok(new { token });
