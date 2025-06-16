@@ -8,10 +8,11 @@ namespace RealtimeECommerceAnalytics.Services.Interfaces
 {
     public interface IUserService
     {
+        public string GetOSFromUserAgent(string userAgent);
         public Task<IEnumerable<UserDto>> GetUsers();
         public Task<UserDto> GetUser(string email);
-        Task<ResponseCode> UpdateField(JsonElement field, string email);
+        public Task<ResponseCode> UpdateField(JsonElement field, string email);
         public Task<bool> ArchiveUser(int id);
-        Task<ResponseCode> ChangePassword(string newPassword, string email);
+        public Task<ResponseCode> ChangePassword(string newPassword, string email);
     }
 }

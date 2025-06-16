@@ -1,0 +1,15 @@
+<div class="verify-container">
+  <p-card header="Email Verification" styleClass="verify-card">
+    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label>Enter verification code</label>
+          <input pInputText formControlName="code" />
+        </div>
+        <div class="mt">
+          <button type="submit" pButton label="Verify" [disabled]="verifyForm.invalid"></button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</div>

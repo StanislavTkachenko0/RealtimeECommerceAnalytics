@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RealtimeECommerceAnalytics.DataBaseContext;
 using RealtimeECommerceAnalytics.Models;
 using RealtimeECommerceAnalytics.Models.Auth;
+using RealtimeECommerceAnalytics.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -15,11 +17,20 @@ namespace RealtimeECommerceAnalytics.Controllers
     {
         private readonly ECommerceDbContext _dbContext;
         private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
 
-        public AuthController(ECommerceDbContext dbContext, IConfiguration config)
+        public AuthController(
+            ECommerceDbContext dbContext, 
+            IConfiguration config,
+            IEmailService emailService,
+            IUserService userService
+            )
         {
             _dbContext = dbContext;
             _config = config;
+            _emailService = emailService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -44,7 +55,7 @@ namespace RealtimeECommerceAnalytics.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] AuthModel dto)
+        public async Task<IActionResult> Login([FromBody] AuthModel dto)
         {
             var user = _dbContext.Users.FirstOrDefault(u => u.Email == dto.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
@@ -54,6 +65,46 @@ namespace RealtimeECommerceAnalytics.Controllers
             {
                 return Unauthorized("User was archived, please contact manager: TG: @skye_utf");
             }
+
+            var code = new Random().Next(100000, 999999).ToString();
+
+            var loginInfo = new LoginInfo
+            {
+                Email = dto.Email,
+                Code = code,
+                Date = DateTime.UtcNow,
+                Ip = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                OS = _userService.GetOSFromUserAgent(Request.Headers["User-Agent"]),
+                UserAgent = Request.Headers["User-Agent"].ToString(),
+                IsCompleted = false
+            };
+
+            await _dbContext.Logins.AddAsync(loginInfo);
+            await _dbContext.SaveChangesAsync();
+
+            await _emailService.SendEmailAsync(
+                dto.Email,
+                "Login Code",
+                $"<p>Your login code is: <strong>{code}</strong></p>");
+
+            return Ok(new { message = "Code sent." });
+        }
+
+        [HttpPost(nameof(VerifyCode))]
+        public async Task<IActionResult> VerifyCode([FromBody] VerifyCode model)
+        {
+            var latest = await _dbContext.Logins
+                .Where(x => x.Email == model.Email && !x.IsCompleted)
+                .OrderByDescending(x => x.Date)
+                .FirstOrDefaultAsync();
+
+            if (latest == null || latest.Code != model.Code || (DateTime.UtcNow - latest.Date).TotalMinutes > 10)
+                return BadRequest("Invalid or expired code");
+
+            latest.IsCompleted = true;
+            await _dbContext.SaveChangesAsync();
+
+            var user = _dbContext.Users.FirstOrDefault(x => x.Email == model.Email);
 
             var token = GenerateJwtToken(user.Email, user.Role);
             return Ok(new { token });

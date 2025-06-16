@@ -32,6 +32,8 @@ builder.Services.AddHttpClients();
 builder.Services.AddHostedServices();
 
 builder.Services.Configure<MongoSettings>(configuration.GetSection("MongoSettings"));
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+
 builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ECommerceDb")));
 

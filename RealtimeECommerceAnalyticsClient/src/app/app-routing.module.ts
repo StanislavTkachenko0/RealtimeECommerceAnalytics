@@ -4,14 +4,6 @@ import {SignInUpComponent} from './modules/ECommerceClient/pages/sign-in-up/sign
 
 const routes: Routes = [
   {
-    path: 'sign-in',
-    component: SignInUpComponent
-  },
-  {
-    path: 'sign-up',
-    component: SignInUpComponent
-  },
-  {
     path: '',
     redirectTo: 'client',
     pathMatch: 'full',

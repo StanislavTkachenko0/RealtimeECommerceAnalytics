@@ -36,6 +36,19 @@
   }
 }
 
+// verify-code
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.verify-card {
+  width: 400px;
+  padding: 2rem;
+}
+
 // profile
 .profile {
   max-width: 50%;

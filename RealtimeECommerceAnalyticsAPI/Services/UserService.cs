@@ -20,6 +20,25 @@ namespace RealtimeECommerceAnalytics.Services
             _context = context;
         }
 
+        public string GetOSFromUserAgent(string userAgent)
+        {
+            if (string.IsNullOrEmpty(userAgent))
+                return "Unknown";
+
+            if (userAgent.Contains("Windows NT"))
+                return "Windows";
+            if (userAgent.Contains("Mac OS X"))
+                return "macOS";
+            if (userAgent.Contains("Linux"))
+                return "Linux";
+            if (userAgent.Contains("Android"))
+                return "Android";
+            if (userAgent.Contains("iPhone") || userAgent.Contains("iPad"))
+                return "iOS";
+
+            return "Unknown";
+        }
+
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
             try

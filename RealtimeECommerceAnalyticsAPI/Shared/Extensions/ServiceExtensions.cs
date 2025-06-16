@@ -23,6 +23,9 @@ namespace RealtimeECommerceAnalytics.Shared.Extensions
 
             // Singleton
             services.AddSingleton<MongoDataService>();
+
+            //Transient
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         public static void AddHttpClients(this IServiceCollection services)

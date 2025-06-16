@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RealtimeECommerceAnalytics.Models;
+using RealtimeECommerceAnalytics.Models.Auth;
 
 namespace RealtimeECommerceAnalytics.DataBaseContext
 {
@@ -10,6 +11,8 @@ namespace RealtimeECommerceAnalytics.DataBaseContext
 
         public DbSet<UserModel> Users { get; set; }
         public DbSet<LanguageModel> Languages { get; set; }
+        public DbSet<LoginInfo> Logins { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

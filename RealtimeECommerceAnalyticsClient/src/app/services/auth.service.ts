@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {AuthModel} from '../modules/ECommerceClient/models/auth.model';
 import {RegisterModel} from '../modules/ECommerceClient/models/register.model';
 import {jwtDecode} from 'jwt-decode';
+import {VerifyCode} from '../modules/ECommerceClient/models/verify-code';
+import {StorageKeys} from './storage-keys';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +21,20 @@ export class AuthService {
               @Inject('API_URL') private apiUrl: string,
               private router: Router) {}
 
-  login(dto: AuthModel): Observable<AuthModel> {
-    return this.http.post<AuthModel>(`${this.apiUrl}/api/auth/login`, dto).pipe(
-      tap(response => {
-        localStorage.setItem(this.tokenKey, JSON.stringify(response.token));
-        this.isLoggedInSubject.next(true);
-      })
-    );
+  login(dto: AuthModel): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/auth/login`, dto);
+  }
+
+  verify(model: VerifyCode): Observable<AuthModel> {
+    return this.http.post<AuthModel>(`${this.apiUrl}/api/auth/verifyCode`, model)
+      .pipe(
+        tap(response => {
+          localStorage.setItem(this.tokenKey, JSON.stringify(response.token));
+          localStorage.removeItem(StorageKeys.VerifyEmail);
+          localStorage.removeItem(StorageKeys.SentCode);
+          this.isLoggedInSubject.next(true);
+        })
+      );
   }
 
   register(dto: RegisterModel): Observable<any> {

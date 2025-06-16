@@ -35,6 +35,8 @@ import { OpenFoodComponent } from './components/dashboard/components/open-food/o
 import { OpenLibraryComponent } from './components/dashboard/components/open-library/open-library.component';
 import {NavBarModule} from "../nav-bar/nav-bar.module";
 import {ProfileComponent} from '../../components/profile/profile.component';
+import { VerifyCodeComponent } from './pages/verify-code/verify-code.component';
+import {VerifyCodeGuard} from './guards/verify-code.guard';
 
 Chart.register(
   BarElement,
@@ -57,57 +59,71 @@ Chart.register(
     FakeStoreComponent,
     DummyComponent,
     OpenFoodComponent,
-    OpenLibraryComponent
+    OpenLibraryComponent,
+    VerifyCodeComponent
   ],
     imports: [
         RouterModule.forChild([
-                {
-                    path: '',
-                    component: MainPageComponent,
-                    canActivate: [AuthGuard],
-                    children: [
-                        {
-                            path: '', redirectTo: 'dashboard', pathMatch: 'full'
-                        },
-                        {
-                            path: 'dashboard',
-                            component: DashboardComponent,
-                            children: [
-                                {
-                                    path: '',
-                                    redirectTo: 'crypto',
-                                    pathMatch: 'full'
-                                },
-                                {
-                                    path: 'crypto',
-                                    component: CryptoAnalyticsComponent
-                                },
-                                {
-                                    path: 'fake-store',
-                                    component: FakeStoreComponent
-                                },
-                                {
-                                    path: 'dummy',
-                                    component: DummyComponent
-                                },
-                                {
-                                    path: 'open-food',
-                                    component: OpenFoodComponent
-                                },
-                                {
-                                    path: 'open-library',
-                                    component: OpenLibraryComponent
-                                }
-                            ]
-                        },
-                        {
-                          path: 'profile',
-                          component: ProfileComponent,
-                        }
-                    ]
-                },
-                {path: '**', redirectTo: 'sign-in'}
-            ]
+            {
+              path: 'sign-in',
+              component: SignInUpComponent
+            },
+            {
+              path: 'sign-up',
+              component: SignInUpComponent
+            },
+            {
+              path: 'verify-code',
+              component: VerifyCodeComponent,
+              canActivate: [VerifyCodeGuard]
+            },
+            {
+                path: '',
+                component: MainPageComponent,
+                canActivate: [AuthGuard],
+                children: [
+                    {
+                        path: '', redirectTo: 'dashboard', pathMatch: 'full'
+                    },
+                    {
+                        path: 'dashboard',
+                        component: DashboardComponent,
+                        children: [
+                            {
+                                path: '',
+                                redirectTo: 'crypto',
+                                pathMatch: 'full'
+                            },
+                            {
+                                path: 'crypto',
+                                component: CryptoAnalyticsComponent
+                            },
+                            {
+                                path: 'fake-store',
+                                component: FakeStoreComponent
+                            },
+                            {
+                                path: 'dummy',
+                                component: DummyComponent
+                            },
+                            {
+                                path: 'open-food',
+                                component: OpenFoodComponent
+                            },
+                            {
+                                path: 'open-library',
+                                component: OpenLibraryComponent
+                            }
+                        ]
+                    },
+                    {
+                      path: 'profile',
+                      component: ProfileComponent,
+                    }
+                ]
+            },
+            {path: '**', redirectTo: 'sign-in'}
+          ]
         ),
         NgForOf,
         BaseChartDirective,
@@ -123,7 +139,8 @@ Chart.register(
         NavBarModule,
     ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    VerifyCodeGuard
   ],
   bootstrap: []
 })
