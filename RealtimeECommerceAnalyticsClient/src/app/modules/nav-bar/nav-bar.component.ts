@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {AuthService} from '../../services/auth.service';
 import {LanguageService} from '../../services/language.service';
-import {Subject, takeUntil} from 'rxjs';
+import {delay, Subject, takeUntil} from 'rxjs';
 import {Language} from '../../models/language';
 import {BrowserStorageService} from '../../services/browser-storage.service';
 import {StorageKeys} from '../../services/storage-keys';
@@ -38,17 +38,24 @@ export class NavBarComponent implements OnInit {
       .subscribe(() => {
         this.loadLanguages();
       });
+
+    this.storageService.onLocalItemChanged
+      .pipe(takeUntil(this.destroy$))
+      .pipe(delay(200))
+      .subscribe((event: any) => {
+        this.setMenuItems();
+      })
   }
 
   private setMenuItems() {
     this.items = [
       {
-        label: 'Profile',
+        label: this.translateService.instant('Profile'),
         icon: 'pi pi-user',
         routerLink: '/client/profile',
       },
       {
-        label: 'Log out',
+        label: this.translateService.instant('LogOut'),
         icon: 'pi pi-sign-out',
         command: (event) => {
           this.authService.logout();

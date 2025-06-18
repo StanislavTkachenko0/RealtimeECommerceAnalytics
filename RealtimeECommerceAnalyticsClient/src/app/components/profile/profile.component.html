@@ -1,7 +1,7 @@
 <div class="profile mx-auto">
   <form (ngSubmit)="onSave()" [formGroup]="profileForm" class="space-y-4">
     <div class="mt">
-      <label>Email</label>
+      <label>{{ 'Email' | translate }}</label>
       <input pInputText
              formControlName="email"
              type="email"
@@ -9,30 +9,30 @@
     </div>
 
     <div class="mt">
-      <label>First Name</label>
+      <label>{{ 'FirstName' | translate }}</label>
       <input pInputText
              formControlName="firstName"
              class="w-100" />
     </div>
 
     <div class="mt">
-      <label>Last Name</label>
+      <label>{{ 'LastName' | translate }}</label>
       <input pInputText
              formControlName="lastName"
              class="w-100" />
     </div>
 
     <div class="pt-4 border-t">
-      <h3 class="text-lg font-semibold mb-2">Change Password</h3>
+      <h3 class="text-lg font-semibold mb-2">{{ 'ChangePassword' | translate }}</h3>
       <div>
-        <label>New Password</label>
+        <label>{{ 'NewPassword' | translate }}</label>
         <input pInputText
                formControlName="password"
                type="password"
                class="w-100" />
       </div>
       <div class="mt">
-        <label>Confirm Password</label>
+        <label>{{ 'ConfirmPassword' | translate }}</label>
         <input pInputText
                formControlName="confirmPassword"
                type="password"
@@ -43,7 +43,7 @@
                             && profileForm.get('confirmPassword')?.invalid">
             <small class="p-error"
                    *ngIf="profileForm.get('confirmPassword')!.hasError('passwordMismatch') && !profileForm.get('password')?.invalid">
-              Passwords do not match.
+              {{ 'PasswordNotMatch' | translate }}
             </small>
           </ng-container>
         </div>

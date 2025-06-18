@@ -3,7 +3,7 @@
     <div class="flex justify-center w-100">
       <div class="w-100">
         <h2 class="text-2xl font-semibold text-center mb-4">
-          {{ isLoginMode ? 'Sign In' : 'Sign Up' }}
+          {{ isLoginMode ? ('SignIn' | translate) : ('SignUp' | translate) }}
         </h2>
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -15,13 +15,13 @@
                        type="email"
                        class="w-full"
                        autocomplete="email" />
-                <label for="email">Email</label>
+                <label for="email">{{ 'Email' | translate }}</label>
               </p-floatLabel>
               <div style="height: 10px">
                 <ng-container *ngIf="(form.get('email')?.touched || form.get('email')?.dirty)
                             && form.get('email')?.invalid">
-                  <small *ngIf="form.get('email')?.errors?.['required']" class="p-error">Email is required</small>
-                  <small *ngIf="form.get('email')?.errors?.['email']" class="p-error">Email doesn't correct</small>
+                  <small *ngIf="form.get('email')?.errors?.['required']" class="p-error">{{ 'EmailRequired' | translate }}</small>
+                  <small *ngIf="form.get('email')?.errors?.['email']" class="p-error">{{ 'EmailNoCorrect' | translate }}</small>
                 </ng-container>
               </div>
             </div>
@@ -35,13 +35,13 @@
                        toggleMask
                        [feedback]="false"
                        autocomplete="current-password"/>
-                <label for="password">Password</label>
+                <label for="password">{{ 'Password' | translate }}</label>
               </p-floatLabel>
               <div style="height: 10px">
                 <ng-container *ngIf="(form.get('password')?.touched || form.get('password')?.dirty)
                             && form.get('password')?.invalid">
-                  <small *ngIf="form.get('password')?.errors?.['required']" class="p-error">Password is required</small>
-                  <small *ngIf="form.get('password')?.errors?.['minlength']" class="p-error">Password must be more then 6 symbols</small>
+                  <small *ngIf="form.get('password')?.errors?.['required']" class="p-error">{{ 'PasswordRequired' | translate }}</small>
+                  <small *ngIf="form.get('password')?.errors?.['minlength']" class="p-error">{{ 'Password6Symbols' | translate }}</small>
                 </ng-container>
               </div>
             </div>
@@ -55,14 +55,14 @@
                        toggleMask
                        [feedback]="false"
                        autocomplete="new-password"/>
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmPassword">{{ 'ConfirmPassword' | translate }}</label>
               </p-floatLabel>
               <div style="height: 10px">
                 <ng-container *ngIf="(form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)
                             && form.get('confirmPassword')?.invalid">
                   <small class="p-error"
                          *ngIf="form.get('confirmPassword')!.hasError('passwordMismatch') && !form.get('password')?.invalid">
-                    Passwords do not match.
+                    {{ 'PasswordNotMatch' | translate }}
                   </small>
                 </ng-container>
               </div>
@@ -72,17 +72,17 @@
               type="submit"
               pButton
               class="w-full mt-2"
-              [label]="isLoginMode ? 'Sign In' : 'Sign Up'"
+              [label]="isLoginMode ? ('SignIn' | translate) : ('SignUp' | translate)"
             ></button>
           </div>
         </form>
 
         <p class="text-center mt-4 text-sm">
-          {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+          {{ isLoginMode ? ('DontHaveAccount' | translate) : ('AlreadyHaveAccount' | translate) }}
           <a
             [routerLink]="[isLoginMode ? '/sign-up' : '/sign-in']"
             class="text-blue-600 hover:underline"
-          >{{ isLoginMode ? 'Sign Up' : 'Sign In' }}</a
+          >{{ isLoginMode ? ('SignIn' | translate) : ('SignUp' | translate) }}</a
           >
         </p>
       </div>

@@ -11,7 +11,7 @@
           <span class="text-sm text-muted">({{ lang.languageCode }})</span>
         </div>
 
-        <p><strong>Version:</strong> {{ lang.version }}</p>
+        <p><strong>{{ 'Version' | translate }}:</strong> {{ lang.version }}</p>
       </div>
 
       <div class="flex align-items-center flex-wrap gap-1">
@@ -21,12 +21,12 @@
           accept=".json"
           customUpload="true"
           (uploadHandler)="uploadJson($event, lang.languageCode)"
-          chooseLabel="Upload JSON"
+          [chooseLabel]="'UploadJSON' | translate"
           class="w-full"
         ></p-fileUpload>
 
         <p-button
-          label="Download JSON"
+          [label]="'DownloadJSON' | translate"
           icon="pi pi-download"
           class="p-button-info w-full"
           (onClick)="downloadJson(lang.languageCode)"
@@ -44,7 +44,7 @@
 
   <div class="flex justify-content-end w-100 mt">
     <p-button
-      label="Add Language"
+      [label]="'AddLanguage' | translate"
       icon="pi pi-plus"
       class="p-button-danger w-full"
       (onClick)="openOrCloseAddLanguageDialog()"
@@ -54,7 +54,7 @@
 
 <p-dialog
   #dialog
-  header="Add Language"
+  [header]="'AddLanguage' | translate"
   [(visible)]="addLanguageDialogIsOpened"
   [modal]="true"
   [style]="{width: '350px'}"
@@ -62,19 +62,19 @@
 
   <div class="p-fluid flex flex-direction-column gap-1">
     <div class="p-field">
-      <label for="langName">Language Name</label>
+      <label for="langName">{{ 'LanguageName' | translate }}</label>
       <input id="langName" type="text" pInputText [(ngModel)]="languageName" name="langName" />
     </div>
 
     <div class="p-field">
-      <label for="langCode">Language Code</label>
+      <label for="langCode">{{ 'LanguageCode' | translate }}</label>
       <input id="langCode" type="text" maxlength="2" pInputText [(ngModel)]="languageCode" name="langCode" />
     </div>
   </div>
 
   <ng-template pTemplate="footer">
     <p-button
-      label="Add"
+      [label]="'Add' | translate"
       icon="pi pi-check"
       (onClick)="addLanguage($event, dialog)"
       class="p-button-success">

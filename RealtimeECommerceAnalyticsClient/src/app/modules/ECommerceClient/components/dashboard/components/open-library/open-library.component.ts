@@ -4,6 +4,7 @@ import {Subject, takeUntil} from 'rxjs';
 import {ChartConfiguration} from 'chart.js';
 import {DashboardComponent} from '../../dashboard.component';
 import {Product} from '../../../../models/product';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-open-library',
@@ -45,7 +46,10 @@ export class OpenLibraryComponent implements OnInit, OnDestroy {
 
   public barLibraryChartLabels: string[] = [];
 
-  constructor(private parent: DashboardComponent) {
+  constructor(
+    private parent: DashboardComponent,
+    private translationService: TranslateService,
+  ) {
   }
 
   ngOnDestroy() {
@@ -73,6 +77,7 @@ export class OpenLibraryComponent implements OnInit, OnDestroy {
 
     this.barLibraryChartData.labels = labels;
     this.barLibraryChartData.datasets[0].data = values;
+    this.barLibraryChartData.datasets[0].label = this.translationService.instant('Prices');
 
     this.chart?.update();
   }

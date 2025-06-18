@@ -32,7 +32,7 @@ namespace RealtimeECommerceAnalytics.Services.Backgrounds
                     _logger.LogError(ex, "Error during data aggregation");
                 }
 
-                // Настрой інтервал, наприклад, кожну годину
+                // Інтервал - кожну годину
                 await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
             }
         }

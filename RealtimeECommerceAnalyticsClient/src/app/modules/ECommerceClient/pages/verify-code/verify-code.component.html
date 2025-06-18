@@ -1,13 +1,13 @@
 <div class="verify-container">
-  <p-card header="Email Verification" styleClass="verify-card">
+  <p-card [header]="'EmailVerification' | translate" styleClass="verify-card">
     <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
       <div class="p-fluid">
         <div class="p-field">
-          <label>Enter verification code</label>
+          <label>{{ 'EnterCode' | translate }}</label>
           <input pInputText formControlName="code" />
         </div>
         <div class="mt">
-          <button type="submit" pButton label="Verify" [disabled]="verifyForm.invalid"></button>
+          <button type="submit" pButton [label]="'Verify' | translate" [disabled]="verifyForm.invalid"></button>
         </div>
       </div>
     </form>

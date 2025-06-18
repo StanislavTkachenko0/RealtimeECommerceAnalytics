@@ -4,6 +4,7 @@ import {Subject, takeUntil} from 'rxjs';
 import {ChartConfiguration} from 'chart.js';
 import {DashboardComponent} from '../../dashboard.component';
 import {Product} from '../../../../models/product';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dummy',
@@ -45,7 +46,10 @@ export class DummyComponent implements OnInit, OnDestroy {
 
   public barDummyChartLabels: string[] = [];
 
-  constructor(private parent: DashboardComponent) {
+  constructor(
+    private parent: DashboardComponent,
+    private translationService: TranslateService
+  ) {
   }
 
   ngOnDestroy() {
@@ -72,6 +76,7 @@ export class DummyComponent implements OnInit, OnDestroy {
 
     this.barDummyChartData.labels = labels;
     this.barDummyChartData.datasets[0].data = values;
+    this.barDummyChartData.datasets[0].label = this.translationService.instant('Prices');
 
     this.chart?.update();
   }

@@ -104,7 +104,7 @@ namespace RealtimeECommerceAnalytics.Controllers
             latest.IsCompleted = true;
             await _dbContext.SaveChangesAsync();
 
-            var user = _dbContext.Users.FirstOrDefault(x => x.Email == model.Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == model.Email);
 
             var token = GenerateJwtToken(user.Email, user.Role);
             return Ok(new { token });

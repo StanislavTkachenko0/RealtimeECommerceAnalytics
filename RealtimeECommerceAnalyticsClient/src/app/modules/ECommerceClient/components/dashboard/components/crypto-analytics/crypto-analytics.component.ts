@@ -4,6 +4,7 @@ import {DashboardComponent} from '../../dashboard.component';
 import {Product} from '../../../../models/product';
 import {BaseChartDirective} from 'ng2-charts';
 import {Subject, takeUntil} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-crypto-analytics',
@@ -21,7 +22,7 @@ export class CryptoAnalyticsComponent implements OnInit, OnDestroy {
     datasets: [
       {
         data: [],
-        label: 'Crypto Prices',
+        label: '',
         backgroundColor: [
           'rgba(54, 162, 235, 0.7)',
           'rgba(255, 99, 132, 0.7)',
@@ -45,7 +46,10 @@ export class CryptoAnalyticsComponent implements OnInit, OnDestroy {
 
   public barCryptoChartLabels: string[] = [];
 
-  constructor(private parent: DashboardComponent) {
+  constructor(
+    private parent: DashboardComponent,
+    private translationService: TranslateService
+    ) {
   }
 
   ngOnDestroy() {
@@ -69,6 +73,7 @@ export class CryptoAnalyticsComponent implements OnInit, OnDestroy {
 
     this.barCryptoChartData.labels = labels;
     this.barCryptoChartData.datasets[0].data = values;
+    this.barCryptoChartData.datasets[0].label = this.translationService.instant('Prices');
 
     this.chart?.update();
   }

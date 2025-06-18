@@ -4,6 +4,7 @@ import {Product} from '../../../../models/product';
 import {ChartConfiguration} from 'chart.js';
 import {Subject, takeUntil} from 'rxjs';
 import {BaseChartDirective} from 'ng2-charts';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fake-store',
@@ -45,7 +46,10 @@ export class FakeStoreComponent implements OnInit {
 
   public barChartLabels: string[] = [];
 
-  constructor(private parent: DashboardComponent) {
+  constructor(
+    private parent: DashboardComponent,
+    private translationService: TranslateService,
+  ) {
   }
 
   ngOnInit() {
@@ -67,5 +71,8 @@ export class FakeStoreComponent implements OnInit {
 
     this.barChartData.labels = labels;
     this.barChartData.datasets[0].data = values;
+    this.barChartData.datasets[0].label = this.translationService.instant('Prices');
+
+    this.chart?.update();
   }
 }
